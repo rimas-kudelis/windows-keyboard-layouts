@@ -1,0 +1,72 @@
+--- ltenhdfn.C	Wed Jun 29 17:32:19 2011
++++ ltenhdfn.C	Wed Jun 29 17:34:10 2011
+@@ -58,19 +58,19 @@
+      *     KBDNUMPAD  - digits 0-9 and decimal point.
+      *     KBDSPECIAL - require special processing by Windows
+      */
+-    T47 | KBDNUMPAD | KBDSPECIAL,   // Numpad 7 (Home)
+-    T48 | KBDNUMPAD | KBDSPECIAL,   // Numpad 8 (Up),
+-    T49 | KBDNUMPAD | KBDSPECIAL,   // Numpad 9 (PgUp),
++    VK_NUMPAD7,   // Numpad 7 (Home)
++    VK_NUMPAD8,   // Numpad 8 (Up),
++    VK_NUMPAD9,   // Numpad 9 (PgUp),
+     T4A,
+-    T4B | KBDNUMPAD | KBDSPECIAL,   // Numpad 4 (Left),
+-    T4C | KBDNUMPAD | KBDSPECIAL,   // Numpad 5 (Clear),
+-    T4D | KBDNUMPAD | KBDSPECIAL,   // Numpad 6 (Right),
++    VK_NUMPAD4,   // Numpad 4 (Left),
++    VK_NUMPAD5,   // Numpad 5 (Clear),
++    VK_NUMPAD6,   // Numpad 6 (Right),
+     T4E,
+-    T4F | KBDNUMPAD | KBDSPECIAL,   // Numpad 1 (End),
+-    T50 | KBDNUMPAD | KBDSPECIAL,   // Numpad 2 (Down),
+-    T51 | KBDNUMPAD | KBDSPECIAL,   // Numpad 3 (PgDn),
+-    T52 | KBDNUMPAD | KBDSPECIAL,   // Numpad 0 (Ins),
+-    T53 | KBDNUMPAD | KBDSPECIAL,   // Numpad . (Del),
++    VK_NUMPAD1,   // Numpad 1 (End),
++    VK_NUMPAD2,   // Numpad 2 (Down),
++    VK_NUMPAD3,   // Numpad 3 (PgDn),
++    VK_NUMPAD0,   // Numpad 0 (Ins),
++    VK_DECIMAL,   // Numpad . (Del),
+ 
+     T54, T55, T56, T57, T58, T59, T5A, T5B,
+     T5C, T5D, T5E, T5F, T60, T61, T62, T63,
+@@ -277,25 +277,25 @@
+ // as coming from the main section of the kbd (aVkToWch2 and
+ // aVkToWch5) before considering the numpad (aVkToWch1).
+ 
+-static ALLOC_SECTION_LDATA VK_TO_WCHARS1 aVkToWch1[] = {
+-    { VK_NUMPAD0   , 0      ,  '0'   },
+-    { VK_NUMPAD1   , 0      ,  '1'   },
+-    { VK_NUMPAD2   , 0      ,  '2'   },
+-    { VK_NUMPAD3   , 0      ,  '3'   },
+-    { VK_NUMPAD4   , 0      ,  '4'   },
+-    { VK_NUMPAD5   , 0      ,  '5'   },
+-    { VK_NUMPAD6   , 0      ,  '6'   },
+-    { VK_NUMPAD7   , 0      ,  '7'   },
+-    { VK_NUMPAD8   , 0      ,  '8'   },
+-    { VK_NUMPAD9   , 0      ,  '9'   },
+-    { 0            , 0      ,  '\0'  }
++static ALLOC_SECTION_LDATA VK_TO_WCHARS2 aVkToWch1[] = {
++    { VK_NUMPAD0   , 0      ,  '0'  , '0'  },
++    { VK_NUMPAD1   , 0      ,  '1'  , '1'  },
++    { VK_NUMPAD2   , 0      ,  '2'  , '2'  },
++    { VK_NUMPAD3   , 0      ,  '3'  , '3'  },
++    { VK_NUMPAD4   , 0      ,  '4'  , '4'  },
++    { VK_NUMPAD5   , 0      ,  '5'  , '5'  },
++    { VK_NUMPAD6   , 0      ,  '6'  , '6'  },
++    { VK_NUMPAD7   , 0      ,  '7'  , '7'  },
++    { VK_NUMPAD8   , 0      ,  '8'  , '8'  },
++    { VK_NUMPAD9   , 0      ,  '9'  , '9'  },
++    { 0            , 0      ,  '\0' , '\0' }
+ };
+ 
+ static ALLOC_SECTION_LDATA VK_TO_WCHAR_TABLE aVkToWcharTable[] = {
+     {  (PVK_TO_WCHARS1)aVkToWch3, 3, sizeof(aVkToWch3[0]) },
+     {  (PVK_TO_WCHARS1)aVkToWch5, 5, sizeof(aVkToWch5[0]) },
+     {  (PVK_TO_WCHARS1)aVkToWch2, 2, sizeof(aVkToWch2[0]) },
+-    {  (PVK_TO_WCHARS1)aVkToWch1, 1, sizeof(aVkToWch1[0]) },
++    {  (PVK_TO_WCHARS1)aVkToWch1, 2, sizeof(aVkToWch1[0]) },
+     {                       NULL, 0, 0                    },
+ };
+ 

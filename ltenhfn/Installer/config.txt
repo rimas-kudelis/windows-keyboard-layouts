@@ -1,0 +1,5 @@
+﻿;!@Install@!UTF-8!
+Title="Lietuvių papildytasis (Fn) klaviatūros išdėstymas"
+BeginPrompt="Ar norite įdiegti Lietuvių papildytąjį (Fn) klaviatūros išdėstymą?"
+RunProgram="setup.exe"
+;!@InstallEnd@!

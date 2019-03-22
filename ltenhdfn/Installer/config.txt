@@ -1,0 +1,5 @@
+﻿;!@Install@!UTF-8!
+Title="Lietuvių papildytasis (deš. taškas, Fn) klaviatūros išdėstymas"
+BeginPrompt="Ar norite įdiegti Lietuvių papildytąjį (Fn; su dešimtainiu skyrikliu - tašku) klaviatūros išdėstymą?"
+RunProgram="setup.exe"
+;!@InstallEnd@!

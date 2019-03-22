@@ -1,0 +1,68 @@
+; KBDLTE.INF
+;
+; Lithuanian Enhanced Keyboard Layout
+; release 1.3
+; 
+; (c) Rimas Kudelis 2007-2010
+; This file based on similar file KBDLTNUM.INF
+; (c) Rimantas Berlinskas 1998-2003
+
+[version]
+Signature="$Chicago$"
+
+[DefaultInstall]
+CopyFiles=CopyKBD,CopyINF
+AddReg=RegKBD,Reg.Unins
+
+[DefaultInstall.NT]
+; This package only supports Windows 9X systems
+
+[DefaultUninstall]
+DelFiles=CopyKBD,CopyINF
+AddReg=Reg.Orig
+DelReg=Reg.Unins
+
+[DefaultUninstall.NT]
+; This package only supports Windows 9X systems
+
+[CopyKBD]
+kbdlte.kbd
+
+[CopyINF]
+kbdlte.inf
+
+[DestinationDirs]
+CopyKBD=11
+CopyINF=17
+; 11=LDID_SYS
+; 17=LDID_INF
+
+[RegKBD]
+HKLM,%CurCtrl%"\keyboard layouts\00020427","layout file",,kbdlte.kbd
+HKLM,%CurCtrl%"\keyboard layouts\00020427","layout id",,0032
+HKLM,%CurCtrl%"\keyboard layouts\00020427","layout text",,"Lithuanian (Enhanced)"
+
+[Reg.Orig]
+HKLM,%CurCtrl%"\keyboard layouts\00020427","layout file",,kbdltb.kbd
+HKLM,%CurCtrl%"\keyboard layouts\00020427","layout id",,0032
+HKLM,%CurCtrl%"\keyboard layouts\00020427","layout text",,"Lithuanian (Baltic)"
+
+[Reg.Unins]
+HKLM,%UILW%
+HKLM,%UILW%,DisplayName,,"%Lith_DESC%"
+HKLM,%UILW%,UninstallString,,"%10%\rundll.exe setupx.dll,InstallHinfSection DefaultUninstall 132 %17%\kbdlte.inf"
+; 10=LDID_WIN
+; 17=LDID_INF
+
+[SourceDisksNames]
+1="%Disk_DESC%",,0
+
+[SourceDisksFiles]
+kbdlte.kbd = 1
+kbdlte.inf = 1
+
+[Strings]
+Disk_DESC = "Lithuanian Enhanced Keyboard Layout Setup Files"
+Lith_DESC = "Lithuanian Enhanced Keyboard Layout"
+CurCtrl = "System\CurrentControlSet\Control"
+UILW = "Software\Microsoft\Windows\CurrentVersion\Uninstall\kbdlte"
