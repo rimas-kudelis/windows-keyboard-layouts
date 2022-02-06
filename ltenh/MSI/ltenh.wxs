@@ -245,20 +245,13 @@
         </UI>
 
         <InstallExecuteSequence>
-            <Custom Action="DIRCA_TARGETDIR" Sequence="750">TARGETDIR=""</Custom>
-            <Custom Action="RemoveKeyboardFromLangBar" Sequence="3450">($RegistryKeys =2)</Custom>
-            <Custom Action="SetFilePath" Sequence="4030">Not Msix64 And Not Intel64</Custom>
-            <Custom Action="SetFilePathAmd64" Sequence="4032">Msix64</Custom>
-            <Custom Action="SetFilePathIa64" Sequence="4034">Intel64</Custom>
-            <Custom Action="RegisterKeyboard" Sequence="4050">($RegistryKeys &gt;2)</Custom>
-            <Custom Action="UnregisterKeyboard" Sequence="4060">($RegistryKeys =2)</Custom>
-            <Custom Action="AddKeyboardToLangBar" Sequence="4065">($RegistryKeys &gt;2)</Custom>
-            <LaunchConditions Sequence="400">NOT Installed</LaunchConditions>
-            <FindRelatedProducts Sequence="200" />
             <AppSearch Sequence="100" />
+            <FindRelatedProducts Sequence="200" />
+            <LaunchConditions Sequence="400">NOT Installed</LaunchConditions>
             <CCPSearch Sequence="500">NOT Installed</CCPSearch>
             <RMCCPSearch Sequence="600">NOT Installed</RMCCPSearch>
             <ValidateProductID Sequence="700" />
+            <Custom Action="DIRCA_TARGETDIR" Sequence="750">TARGETDIR=""</Custom>
             <CostInitialize Sequence="800" />
             <FileCost Sequence="900" />
             <IsolateComponents Sequence="950">RedirectedDllSupport</IsolateComponents>
@@ -286,13 +279,20 @@
             <RemoveShortcuts Sequence="3200" />
             <RemoveEnvironmentStrings Sequence="3300" />
             <RemoveDuplicateFiles Sequence="3400" />
+            <Custom Action="RemoveKeyboardFromLangBar" Sequence="3450">($RegistryKeys =2)</Custom>
             <RemoveFiles Sequence="3500" />
             <RemoveFolders Sequence="3600" />
             <CreateFolders Sequence="3700" />
             <MoveFiles Sequence="3800" />
             <InstallFiles Sequence="4000" />
-            <DuplicateFiles Sequence="4210" />
+            <Custom Action="SetFilePath" Sequence="4030">Not Msix64 And Not Intel64</Custom>
+            <Custom Action="SetFilePathAmd64" Sequence="4032">Msix64</Custom>
+            <Custom Action="SetFilePathIa64" Sequence="4034">Intel64</Custom>
+            <Custom Action="RegisterKeyboard" Sequence="4050">($RegistryKeys &gt;2)</Custom>
+            <Custom Action="UnregisterKeyboard" Sequence="4060">($RegistryKeys =2)</Custom>
+            <Custom Action="AddKeyboardToLangBar" Sequence="4065">($RegistryKeys &gt;2)</Custom>
             <PatchFiles Sequence="4090" />
+            <DuplicateFiles Sequence="4210" />
             <BindImage Sequence="4300" />
             <CreateShortcuts Sequence="4500" />
             <RegisterClassInfo Sequence="4600" />
@@ -321,21 +321,21 @@
         </InstallExecuteSequence>
 
         <InstallUISequence>
-            <Custom Action="DIRCA_TARGETDIR" Sequence="750">TARGETDIR=""</Custom>
             <Show Dialog="FatalErrorForm" OnExit="error" />
             <Show Dialog="UserExitForm" OnExit="cancel" />
             <Show Dialog="FinishedForm" OnExit="success" />
-            <Show Dialog="ResumeForm" Sequence="998">Installed="" AND RESUME</Show>
-            <Show Dialog="MaintenanceForm" Sequence="999">Installed&lt;&gt;""</Show>
-            <LaunchConditions Sequence="400">NOT Installed</LaunchConditions>
-            <FindRelatedProducts Sequence="200" />
             <AppSearch Sequence="100" />
+            <FindRelatedProducts Sequence="200" />
+            <LaunchConditions Sequence="400">NOT Installed</LaunchConditions>
             <CCPSearch Sequence="500">NOT Installed</CCPSearch>
             <RMCCPSearch Sequence="600">NOT Installed</RMCCPSearch>
             <ValidateProductID Sequence="700" />
+            <Custom Action="DIRCA_TARGETDIR" Sequence="750">TARGETDIR=""</Custom>
             <CostInitialize Sequence="800" />
             <FileCost Sequence="900" />
             <IsolateComponents Sequence="950">RedirectedDllSupport</IsolateComponents>
+            <Show Dialog="ResumeForm" Sequence="998">Installed="" AND RESUME</Show>
+            <Show Dialog="MaintenanceForm" Sequence="999">Installed&lt;&gt;""</Show>
             <CostFinalize Sequence="1000" />
             <ExecuteAction Sequence="1300" />
         </InstallUISequence>
