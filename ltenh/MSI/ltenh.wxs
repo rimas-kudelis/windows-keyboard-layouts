@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Product Id="{05176305-42C9-443F-927C-41E4F9470249}" Codepage="65001" Language="!(loc.ProductLanguageCode)" Manufacturer="!(loc.ProductManufacturer)" Name="!(loc.ProductName)" UpgradeCode="{8E0A18CA-D0EF-4F46-9D71-1377301A70AC}" Version="1.0.3.40">
-        <Package Description="!(loc.PackageDescription)" Keywords="!(loc.PackageKeywords)" Languages="!(loc.ProductLanguageCode)" Manufacturer="!(loc.ProductManufacturer)" Compressed="yes" SummaryCodepage="!(loc.ProductSummaryCodepage)" />
+        <Package Comments="!(loc.PackageDescription)" Description="!(loc.PackageDescription)" Keywords="!(loc.PackageKeywords)" Languages="!(loc.ProductLanguageCode)" Manufacturer="!(loc.ProductManufacturer)" Compressed="yes" SummaryCodepage="!(loc.ProductSummaryCodepage)" />
 
         <Condition Message="!(loc.ConflictingFileMessage)">KEYBOARD_ALREADY_PRESENT="" Or Installed</Condition>
         <Condition Message="!(loc.Windows9xMessage)">NOT Version9X</Condition>
