@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="{05176305-42C9-443F-927C-41E4F9470249}" Codepage="65001" Language="1063" Manufacturer="Rimas Kudelis" Name="Lithuanian (Enhanced)" UpgradeCode="{8E0A18CA-D0EF-4F46-9D71-1377301A70AC}" Version="1.0.3.40">
+        <Package Comments="Lithuanian (Enhanced)" Description="Keyboard Layout Creator 1.4" InstallerVersion="200" Keywords="Custom, Keyboard, Installer, MSI, database, MSKLC" Languages="1033" Manufacturer="Rimas" Platform="x64" SummaryCodepage="1257" />
+        <Binary Id="CustomActionDll.ECB5B2C9EAD1491CB6600CEA691C2433" SourceFile=".\Binary\CustomActionDll.ECB5B2C9EAD1491CB6600CEA691C2433" />
+        <Condition Message="The keyboard DLL file supporting Lithuanian (Enhanced) (named ltenh.dll) already exists on this machine in the system directory.&#xD;&#xA;&#xD;&#xA;Installation cannot continue.">KEYBOARD_ALREADY_PRESENT.ECB5B2C9EAD1491CB6600CEA691C2433="" Or Installed</Condition>
+        <Condition Message="This keyboard cannot be installed on Windows 95, Windows 98, or Windows ME.&#xD;&#xA;&#xD;&#xA;Installation cannot continue.">Version9X.ECB5B2C9EAD1491CB6600CEA691C2433=""</Condition>
+        <CustomAction Id="DIRCA_TARGETDIR.ECB5B2C9EAD1491CB6600CEA691C2433" Property="TARGETDIR" Value="[SystemFolder]" Execute="firstSequence" />
+        <CustomAction Id="RemoveKeyboardFromLangBar.ECB5B2C9EAD1491CB6600CEA691C2433" BinaryKey="CustomActionDll.ECB5B2C9EAD1491CB6600CEA691C2433" DllEntry="CA04" Execute="deferred" />
+        <CustomAction Id="SetFilePathI386.ECB5B2C9EAD1491CB6600CEA691C2433" Property="RegisterKeyboard.ECB5B2C9EAD1491CB6600CEA691C2433" Value="[#_2593376B7D31470B9DDFD3B919A2BAA2]|[LCIDValue]" />
+        <CustomAction Id="SetFilePathAmd64.ECB5B2C9EAD1491CB6600CEA691C2433" Property="RegisterKeyboard.ECB5B2C9EAD1491CB6600CEA691C2433" Value="[#_F5028786107642339F66CFA517AE9093]|[LCIDValue]" />
+        <CustomAction Id="SetFilePathIa64.ECB5B2C9EAD1491CB6600CEA691C2433" Property="RegisterKeyboard.ECB5B2C9EAD1491CB6600CEA691C2433" Value="[#_90B631189C7F41019884E708F17AA761]|[LCIDValue]" />
+        <CustomAction Id="RegisterKeyboard.ECB5B2C9EAD1491CB6600CEA691C2433" BinaryKey="CustomActionDll.ECB5B2C9EAD1491CB6600CEA691C2433" DllEntry="CA01" Execute="deferred" Impersonate="no" />
+        <CustomAction Id="UnregisterKeyboard.ECB5B2C9EAD1491CB6600CEA691C2433" BinaryKey="CustomActionDll.ECB5B2C9EAD1491CB6600CEA691C2433" DllEntry="CA02" Execute="deferred" Impersonate="no" />
+        <CustomAction Id="AddKeyboardToLangBar.ECB5B2C9EAD1491CB6600CEA691C2433" BinaryKey="CustomActionDll.ECB5B2C9EAD1491CB6600CEA691C2433" DllEntry="CA03" Execute="deferred" />
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Component Id="C__RegistryKeys" Guid="{4A4EAE0D-5F66-4E3D-AAC4-27F121FDBC53}" KeyPath="yes" />
+            <Directory Id="SystemFolder">
+                <Directory Id="SYSTEMFOLDERI386" ShortSourceName="I386" SourceName="i386">
+                    <Component Id="C__2593376B7D31470B9DDFD3B919A2BAA2" Guid="{57344B98-84AA-466E-BBB2-0DCD1A503FAE}">
+                        <Condition>NOT VersionNT64</Condition>
+                        <File Id="_2593376B7D31470B9DDFD3B919A2BAA2" Name="ltenh.dll" KeyPath="yes" DiskId="1" Source="SourceDir\\i386\ltenh.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="SYSTEMFOLDERWOW64" ShortSourceName="WOW64" SourceName="wow64">
+                    <Component Id="C__C731CD755731470D8B89289FC0487BD6" Guid="{3E1F22E6-E742-4C1E-86A5-19DD3E892D59}">
+                        <Condition>VersionNT64</Condition>
+                        <File Id="_C731CD755731470D8B89289FC0487BD6" Name="ltenh.dll" KeyPath="yes" DiskId="1" Source="SourceDir\\wow64\ltenh.dll" />
+                    </Component>
+                </Directory>
+            </Directory>
+            <Directory Id="System64Folder">
+                <Directory Id="SYSTEMFOLDERAMD64" ShortSourceName="AMD64" SourceName="amd64">
+                    <Component Id="C__F5028786107642339F66CFA517AE9093" Guid="{1EE08930-5343-40DD-B2D7-FE7360501ECE}" Win64="yes">
+                        <Condition>Msix64</Condition>
+                        <File Id="_F5028786107642339F66CFA517AE9093" Name="ltenh.dll" KeyPath="yes" DiskId="1" Source="SourceDir\\amd64\ltenh.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="SYSTEMFOLDERIA64" ShortSourceName="IA64" SourceName="ia64">
+                    <Component Id="C__90B631189C7F41019884E708F17AA761" Guid="{4CC2C155-7578-484B-A15A-AA2F33A20D25}" Win64="yes">
+                        <Condition>Intel64</Condition>
+                        <File Id="_90B631189C7F41019884E708F17AA761" Name="ltenh.dll" KeyPath="yes" DiskId="1" Source="SourceDir\\ia64\ltenh.dll" />
+                    </Component>
+                </Directory>
+            </Directory>
+        </Directory>
+        <Feature Id="DefaultFeature" Level="1">
+            <ComponentRef Id="C__RegistryKeys" />
+        </Feature>
+        <Feature Id="DefaultFeatureI386" ConfigurableDirectory="SYSTEMFOLDERI386" Level="0">
+            <ComponentRef Id="C__2593376B7D31470B9DDFD3B919A2BAA2" />
+            <Condition Level="1">NOT VersionNT64</Condition>
+        </Feature>
+        <Feature Id="DefaultFeatureIa64" ConfigurableDirectory="SYSTEMFOLDERIA64" Level="0">
+            <ComponentRef Id="C__90B631189C7F41019884E708F17AA761" />
+            <Condition Level="1">Intel64</Condition>
+        </Feature>
+        <Feature Id="DefaultFeatureWow64" ConfigurableDirectory="SYSTEMFOLDERWOW64" Level="0">
+            <ComponentRef Id="C__C731CD755731470D8B89289FC0487BD6" />
+            <Condition Level="1">VersionNT64</Condition>
+        </Feature>
+        <Feature Id="DefaultFeatureX64" ConfigurableDirectory="SYSTEMFOLDERAMD64" Level="0">
+            <ComponentRef Id="C__F5028786107642339F66CFA517AE9093" />
+            <Condition Level="1">Msix64</Condition>
+        </Feature>
+        <Media Id="1" />
+        <Property Id="MaintenanceForm_Action" Value="Remove" />
+        <Property Id="ErrorDialog" Value="ErrorDialog" />
+        <Property Id="KLCVERSIONMSG" Value="Unable to install because a newer version of this keyboard is already installed." />
+        <Property Id="NEWERPRODUCTFOUND" Secure="yes" />
+        <Property Id="LCIDValue" Value="0427" />
+        <Property Id="DefaultUIFont" Value="KbdDefaultUIFont" />
+        <Property Id="ARPCONTACT" Value="Rimas Kudelis" />
+        <Property Id="LayoutFile" Value="ltenh.dll" />
+        <Property Id="KEYBOARD_ALREADY_PRESENT.ECB5B2C9EAD1491CB6600CEA691C2433">
+            <DirectorySearch Id="KeyboardFile.ECB5B2C9EAD1491CB6600CEA691C2433" Path="[SystemFolder]" Depth="0">
+                <FileSearch Id="KeyboardFile.ECB5B2C9EAD1491CB6600CEA691C2433" ShortName="ltenh.dll" />
+            </DirectorySearch>
+            <DirectorySearch Id="KeyboardFile.ECB5B2C9EAD1491CB6600CEA691C2433" Path="[System64Folder]" Depth="0">
+                <FileSearchRef Id="KeyboardFile.ECB5B2C9EAD1491CB6600CEA691C2433" />
+            </DirectorySearch>
+        </Property>
+        <UI>
+            <RadioButtonGroup Property="MaintenanceForm_Action">
+                <RadioButton Height="17" Text="{\InstallFont_13}&amp;Remove the keyboard layout." Value="Remove" Width="348" X="0" Y="0" />
+                <RadioButton Height="17" Text="{\InstallFont_13}&amp;Repair the keyboard layout." Value="Repair" Width="348" X="0" Y="18" />
+            </RadioButtonGroup>
+            <TextStyle Id="KbdDefaultUIFont" FaceName="Segoe UI" Size="9" Red="0" Green="0" Blue="0" />
+            <TextStyle Id="InstallFont_16" FaceName="Segoe UI" Size="12" Red="0" Green="0" Blue="0" Bold="yes" />
+            <TextStyle Id="InstallFont_13" FaceName="Segoe UI" Size="9" Red="0" Green="0" Blue="0" />
+            <Dialog Id="FinishedForm" X="50" Y="50" Width="373" Height="187" Title="[ProductName]">
+                <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="{\InstallFont_13}&amp;Close" TabSkip="no" Default="yes" Cancel="yes">
+                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                </Control>
+                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="{\InstallFont_13}Cancel" TabSkip="no" Disabled="yes" />
+                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="{\InstallFont_13}&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+                <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="{\InstallFont_13}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="Line2" Type="Line" X="0" Y="152" Width="372" Height="6" Text="{\InstallFont_13}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="80" Text="{\InstallFont_13}[ProductName] has been successfully installed.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." TabSkip="yes">
+                    <Condition Action="show">REMOVE=""</Condition>
+                    <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
+                </Control>
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\InstallFont_16}Installation Complete" TabSkip="yes" Transparent="yes" />
+                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="{\InstallFont_13}[ProductName] has been successfully removed.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." TabSkip="yes">
+                    <Condition Action="show">REMOVE&lt;&gt;""</Condition>
+                    <Condition Action="hide">REMOVE=""</Condition>
+                </Control>
+            </Dialog>
+            <Dialog Id="UserExitForm" X="50" Y="50" Width="373" Height="187" Title="[ProductName]">
+                <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="{\InstallFont_13}&amp;Close" TabSkip="no" Default="yes" Cancel="yes">
+                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                </Control>
+                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="{\InstallFont_13}Cancel" TabSkip="no" Disabled="yes" />
+                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="{\InstallFont_13}&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+                <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="{\InstallFont_13}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="Line2" Type="Line" X="0" Y="152" Width="372" Height="6" Text="{\InstallFont_13}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\InstallFont_16}Installation Interrupted" TabSkip="yes" Transparent="yes" />
+                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="{\InstallFont_13}The installer was interrupted before [ProductName] could be removed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." TabSkip="yes">
+                    <Condition Action="show">REMOVE&lt;&gt;""</Condition>
+                    <Condition Action="hide">REMOVE=""</Condition>
+                </Control>
+                <Control Id="BodyTextInstall" Type="Text" X="18" Y="63" Width="342" Height="24" Text="{\InstallFont_13}The installation was interrupted before [ProductName] could be installed. You need to restart the installer to try again." TabSkip="yes">
+                    <Condition Action="show">REMOVE=""</Condition>
+                    <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
+                </Control>
+            </Dialog>
+            <Dialog Id="MaintenanceForm" X="50" Y="50" Width="373" Height="187" Title="[ProductName]">
+                <Control Id="FinishButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="{\InstallFont_13}&amp;Finish" TabSkip="no" Default="yes">
+                    <Publish Property="REINSTALL" Value="ALL">MaintenanceForm_Action="Repair"</Publish>
+                    <Publish Event="Reinstall" Value="ALL">MaintenanceForm_Action="Repair"</Publish>
+                    <Publish Property="REMOVE" Value="ALL">MaintenanceForm_Action="Remove"</Publish>
+                    <Publish Event="Remove" Value="ALL">MaintenanceForm_Action="Remove"</Publish>
+                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                </Control>
+                <Control Id="RepairRadioGroup" Type="RadioButtonGroup" X="18" Y="88" Width="348" Height="48" Property="MaintenanceForm_Action" Text="{\InstallFont_13}MsiRadioButtonGroup" TabSkip="no" />
+                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="{\InstallFont_13}Cancel" TabSkip="no" Cancel="yes">
+                    <Publish Event="SpawnDialog" Value="Cancel" />
+                </Control>
+                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="{\InstallFont_13}&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+                <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="{\InstallFont_13}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="Line2" Type="Line" X="0" Y="152" Width="372" Height="6" Text="{\InstallFont_13}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="364" Height="22" Text="{\InstallFont_13}Select whether you want to repair or remove [ProductName]." TabSkip="yes" />
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="364" Height="23" Text="{\InstallFont_16}Welcome to the [ProductName] Setup Wizard" TabSkip="yes" Transparent="yes" />
+            </Dialog>
+            <Dialog Id="FatalErrorForm" X="50" Y="50" Width="373" Height="187" Title="[ProductName]">
+                <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="{\InstallFont_13}&amp;Close" TabSkip="no" Default="yes" Cancel="yes">
+                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                </Control>
+                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="{\InstallFont_13}Cancel" TabSkip="no" Disabled="yes" />
+                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="{\InstallFont_13}&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+                <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="{\InstallFont_13}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="Line2" Type="Line" X="0" Y="152" Width="372" Height="6" Text="{\InstallFont_13}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\InstallFont_13}Installation Incomplete" TabSkip="yes" Transparent="yes" />
+                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="{\InstallFont_13}The installer was interrupted before [ProductName] could be installed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." TabSkip="yes">
+                    <Condition Action="show">REMOVE=""</Condition>
+                    <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
+                </Control>
+                <Control Id="BodyTextInstall" Type="Text" X="9" Y="63" Width="354" Height="80" Text="{\InstallFont_13}The installer was interrupted before [ProductName] could be removed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." TabSkip="yes">
+                    <Condition Action="show">REMOVE&lt;&gt;""</Condition>
+                    <Condition Action="hide">REMOVE=""</Condition>
+                </Control>
+            </Dialog>
+            <Dialog Id="FilesInUse" X="50" Y="50" Width="361" Height="177" Title="[ProductName] Files in Use" NoMinimize="yes">
+                <Control Id="RetryButton" Type="PushButton" X="99" Y="150" Width="81" Height="18" Text="{\InstallFont_13}&amp;Try Again" TabSkip="no" Default="yes">
+                    <Publish Event="EndDialog" Value="Retry" />
+                </Control>
+                <Control Id="ContinueButton" Type="PushButton" X="99" Y="150" Width="81" Height="18" Text="{\InstallFont_13}&amp;Try Again" TabSkip="no">
+                    <Publish Event="EndDialog" Value="Ignore" />
+                </Control>
+                <Control Id="ExitButton" Type="PushButton" X="273" Y="150" Width="81" Height="18" Text="{\InstallFont_13}&amp;Exit Installation" TabSkip="no" Cancel="yes">
+                    <Publish Event="EndDialog" Value="Exit" />
+                </Control>
+                <Control Id="ListFilesInUse" Type="ListBox" X="6" Y="51" Width="348" Height="90" Property="FileInUseProcess" Text="{\InstallFont_13}MsiFilesInUse" TabSkip="no" Sunken="yes" Sorted="yes" />
+                <Control Id="RemoveBodyText" Type="Text" X="6" Y="9" Width="345" Height="36" Text="{\InstallFont_13}The following applications are using files which the installer must remove. You can either close the applications and click &quot;Try Again&quot;, or click &quot;Continue&quot; so that the installer continues the installation, and replaces these files when your system restarts." TabSkip="yes">
+                    <Condition Action="show">REMOVE&lt;&gt;""</Condition>
+                    <Condition Action="hide">REMOVE=""</Condition>
+                </Control>
+                <Control Id="InstallBodyText" Type="Text" X="6" Y="9" Width="345" Height="36" Text="{\InstallFont_13}The following applications are using files which the installer must update. You can either close the applications and click &quot;Try Again&quot;, or click &quot;Continue&quot; so that the installer continues the installation, and replaces these files when your system restarts." TabSkip="yes">
+                    <Condition Action="show">REMOVE=""</Condition>
+                    <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
+                </Control>
+            </Dialog>
+            <Dialog Id="ErrorDialog" X="50" Y="50" Width="330" Height="101" Title="[ProductName]" ErrorDialog="yes">
+                <Control Id="ErrorText" Type="Text" X="6" Y="9" Width="318" Height="48" Text="{\InstallFont_13}" TabSkip="no" Disabled="yes" />
+                <Control Id="Y" Type="PushButton" X="240" Y="72" Width="81" Height="21" Text="{\InstallFont_13}&amp;Yes" TabSkip="yes">
+                    <Publish Event="EndDialog" Value="ErrorYes" />
+                </Control>
+                <Control Id="N" Type="PushButton" X="120" Y="72" Width="81" Height="21" Text="{\InstallFont_13}&amp;No" TabSkip="yes">
+                    <Publish Event="EndDialog" Value="ErrorNo" />
+                </Control>
+                <Control Id="A" Type="PushButton" X="0" Y="72" Width="81" Height="21" Text="{\InstallFont_13}&amp;Exit Installation" TabSkip="yes">
+                    <Publish Event="EndDialog" Value="ErrorAbort" />
+                </Control>
+                <Control Id="R" Type="PushButton" X="198" Y="72" Width="81" Height="21" Text="{\InstallFont_13}&amp;Try Again" TabSkip="yes">
+                    <Publish Event="EndDialog" Value="ErrorRetry" />
+                </Control>
+                <Control Id="I" Type="PushButton" X="81" Y="72" Width="81" Height="21" Text="{\InstallFont_13}&amp;Continue" TabSkip="yes">
+                    <Publish Event="EndDialog" Value="ErrorIgnore" />
+                </Control>
+                <Control Id="O" Type="PushButton" X="159" Y="72" Width="81" Height="21" Text="{\InstallFont_13}OK" TabSkip="yes">
+                    <Publish Event="EndDialog" Value="ErrorOk" />
+                </Control>
+                <Control Id="C" Type="PushButton" X="42" Y="72" Width="81" Height="21" Text="{\InstallFont_13}Cancel" TabSkip="yes">
+                    <Publish Event="EndDialog" Value="ErrorCancel" />
+                </Control>
+            </Dialog>
+            <Dialog Id="ResumeForm" X="50" Y="50" Width="373" Height="187" Title="[ProductName]">
+                <Control Id="FinishButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="{\InstallFont_13}&amp;Finish" TabSkip="no" Default="yes">
+                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                </Control>
+                <Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="{\InstallFont_13}Cancel" TabSkip="no" Cancel="yes">
+                    <Publish Event="SpawnDialog" Value="Cancel" />
+                </Control>
+                <Control Id="PreviousButton" Type="PushButton" X="228" Y="261" Width="66" Height="18" Text="{\InstallFont_13}&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+                <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="{\InstallFont_13}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="Line2" Type="Line" X="0" Y="252" Width="375" Height="6" Text="{\InstallFont_13}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="180" Text="{\InstallFont_13}The installer will resume the installation of [ProductName] on your computer.&#xD;&#xA;&#xD;&#xA;Click &quot;Finish&quot; to continue." TabSkip="yes" />
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\InstallFont_16}Welcome to the [ProductName] Setup Wizard" TabSkip="yes" Transparent="yes" />
+            </Dialog>
+            <Dialog Id="Cancel" X="50" Y="50" Width="271" Height="78" Title="[ProductName]" NoMinimize="yes">
+                <Control Id="NoButton" Type="PushButton" X="198" Y="48" Width="65" Height="21" Text="{\InstallFont_13}&amp;No" TabSkip="no" Default="yes" Cancel="yes">
+                    <Publish Event="EndDialog" Value="Return" />
+                </Control>
+                <Control Id="YesButton" Type="PushButton" X="126" Y="48" Width="65" Height="21" Text="{\InstallFont_13}&amp;Yes" TabSkip="no">
+                    <Publish Event="EndDialog" Value="Exit" />
+                </Control>
+                <Control Id="BodyText" Type="Text" X="6" Y="9" Width="258" Height="24" Text="{\InstallFont_13}The installation is not yet complete. Are you sure you want to exit?" TabSkip="yes" />
+            </Dialog>
+        </UI>
+        <InstallExecuteSequence>
+            <Custom Action="DIRCA_TARGETDIR.ECB5B2C9EAD1491CB6600CEA691C2433" Sequence="750">TARGETDIR=""</Custom>
+            <Custom Action="RemoveKeyboardFromLangBar.ECB5B2C9EAD1491CB6600CEA691C2433" Sequence="3450">($C__RegistryKeys =2)</Custom>
+            <Custom Action="SetFilePathI386.ECB5B2C9EAD1491CB6600CEA691C2433" Sequence="4030">Not Msix64 And Not Intel64</Custom>
+            <Custom Action="SetFilePathAmd64.ECB5B2C9EAD1491CB6600CEA691C2433" Sequence="4032">Msix64</Custom>
+            <Custom Action="SetFilePathIa64.ECB5B2C9EAD1491CB6600CEA691C2433" Sequence="4034">Intel64</Custom>
+            <Custom Action="RegisterKeyboard.ECB5B2C9EAD1491CB6600CEA691C2433" Sequence="4050">($C__RegistryKeys &gt;2)</Custom>
+            <Custom Action="UnregisterKeyboard.ECB5B2C9EAD1491CB6600CEA691C2433" Sequence="4060">($C__RegistryKeys =2)</Custom>
+            <Custom Action="AddKeyboardToLangBar.ECB5B2C9EAD1491CB6600CEA691C2433" Sequence="4065">($C__RegistryKeys &gt;2)</Custom>
+            <LaunchConditions Sequence="400">NOT Installed</LaunchConditions>
+            <FindRelatedProducts Sequence="200" />
+            <AppSearch Sequence="100" />
+            <CCPSearch Sequence="500">NOT Installed</CCPSearch>
+            <RMCCPSearch Sequence="600">NOT Installed</RMCCPSearch>
+            <ValidateProductID Sequence="700" />
+            <CostInitialize Sequence="800" />
+            <FileCost Sequence="900" />
+            <IsolateComponents Sequence="950">RedirectedDllSupport</IsolateComponents>
+            <CostFinalize Sequence="1000" />
+            <SetODBCFolders Sequence="1100">NOT Installed</SetODBCFolders>
+            <InstallValidate Sequence="1400" />
+            <InstallInitialize Sequence="1500" />
+            <AllocateRegistrySpace Sequence="1550">NOT Installed</AllocateRegistrySpace>
+            <ProcessComponents Sequence="1600" />
+            <UnpublishComponents Sequence="1700" />
+            <UnpublishFeatures Sequence="1800" />
+            <StopServices Sequence="1900">VersionNT</StopServices>
+            <DeleteServices Sequence="2000">VersionNT</DeleteServices>
+            <UnregisterComPlus Sequence="2100" />
+            <SelfUnregModules Sequence="2200" />
+            <UnregisterTypeLibraries Sequence="2300" />
+            <RemoveODBC Sequence="2400" />
+            <UnregisterFonts Sequence="2500" />
+            <RemoveRegistryValues Sequence="2600" />
+            <UnregisterClassInfo Sequence="2700" />
+            <UnregisterExtensionInfo Sequence="2800" />
+            <UnregisterProgIdInfo Sequence="2900" />
+            <UnregisterMIMEInfo Sequence="3000" />
+            <RemoveIniValues Sequence="3100" />
+            <RemoveShortcuts Sequence="3200" />
+            <RemoveEnvironmentStrings Sequence="3300" />
+            <RemoveDuplicateFiles Sequence="3400" />
+            <RemoveFiles Sequence="3500" />
+            <RemoveFolders Sequence="3600" />
+            <CreateFolders Sequence="3700" />
+            <MoveFiles Sequence="3800" />
+            <InstallFiles Sequence="4000" />
+            <DuplicateFiles Sequence="4210" />
+            <PatchFiles Sequence="4090" />
+            <BindImage Sequence="4300" />
+            <CreateShortcuts Sequence="4500" />
+            <RegisterClassInfo Sequence="4600" />
+            <RegisterExtensionInfo Sequence="4700" />
+            <RegisterProgIdInfo Sequence="4800" />
+            <RegisterMIMEInfo Sequence="4900" />
+            <WriteRegistryValues Sequence="5000" />
+            <WriteIniValues Sequence="5100" />
+            <WriteEnvironmentStrings Sequence="5200" />
+            <RegisterFonts Sequence="5300" />
+            <InstallODBC Sequence="5400" />
+            <RegisterTypeLibraries Sequence="5500" />
+            <SelfRegModules Sequence="5600" />
+            <RegisterComPlus Sequence="5700" />
+            <InstallServices Sequence="5800">VersionNT</InstallServices>
+            <StartServices Sequence="5900">VersionNT</StartServices>
+            <RegisterUser Sequence="6000" />
+            <RegisterProduct Sequence="6100" />
+            <PublishComponents Sequence="6200" />
+            <PublishFeatures Sequence="6300" />
+            <PublishProduct Sequence="6400" />
+            <InstallFinalize Sequence="6600" />
+            <RemoveExistingProducts Sequence="1525" />
+            <MsiPublishAssemblies Sequence="6250" />
+            <MsiUnpublishAssemblies Sequence="1650" />
+        </InstallExecuteSequence>
+        <InstallUISequence>
+            <Custom Action="DIRCA_TARGETDIR.ECB5B2C9EAD1491CB6600CEA691C2433" Sequence="750">TARGETDIR=""</Custom>
+            <Show Dialog="FatalErrorForm" OnExit="error" />
+            <Show Dialog="UserExitForm" OnExit="cancel" />
+            <Show Dialog="FinishedForm" OnExit="success" />
+            <Show Dialog="ResumeForm" Sequence="998">Installed="" AND RESUME</Show>
+            <Show Dialog="MaintenanceForm" Sequence="999">Installed&lt;&gt;""</Show>
+            <LaunchConditions Sequence="400">NOT Installed</LaunchConditions>
+            <FindRelatedProducts Sequence="200" />
+            <AppSearch Sequence="100" />
+            <CCPSearch Sequence="500">NOT Installed</CCPSearch>
+            <RMCCPSearch Sequence="600">NOT Installed</RMCCPSearch>
+            <ValidateProductID Sequence="700" />
+            <CostInitialize Sequence="800" />
+            <FileCost Sequence="900" />
+            <IsolateComponents Sequence="950">RedirectedDllSupport</IsolateComponents>
+            <CostFinalize Sequence="1000" />
+            <ExecuteAction Sequence="1300" />
+        </InstallUISequence>
+        <AdminExecuteSequence>
+            <Custom Action="DIRCA_TARGETDIR.ECB5B2C9EAD1491CB6600CEA691C2433" Sequence="750">TARGETDIR=""</Custom>
+            <CostInitialize Sequence="800" />
+            <FileCost Sequence="900" />
+            <CostFinalize Sequence="1000" />
+            <InstallValidate Sequence="1400" />
+            <InstallInitialize Sequence="1500" />
+            <InstallAdminPackage Sequence="3900" />
+            <InstallFiles Sequence="4000" />
+            <InstallFinalize Sequence="6600" />
+        </AdminExecuteSequence>
+    </Product>
+</Wix>
