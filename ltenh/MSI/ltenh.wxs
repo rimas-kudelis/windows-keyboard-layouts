@@ -14,6 +14,7 @@
         <CustomAction Id="DIRCA_TARGETDIR" Property="TARGETDIR" Value="[SystemFolder]" Execute="firstSequence" />
         <CustomAction Id="SetFilePath" Property="RegisterKeyboard" Value="[#FILE_LAYOUT_I386]|[LCIDValue]" />
         <CustomAction Id="SetFilePathAmd64" Property="RegisterKeyboard" Value="[#FILE_LAYOUT_AMD64]|[LCIDValue]" />
+        <CustomAction Id="SetFilePathArm64" Property="RegisterKeyboard" Value="[#FILE_LAYOUT_ARM64]|[LCIDValue]" />
         <CustomAction Id="SetFilePathIa64" Property="RegisterKeyboard" Value="[#FILE_LAYOUT_IA64]|[LCIDValue]" />
 
         <Directory Id="TARGETDIR" Name="SourceDir">
@@ -48,6 +49,14 @@
                     </Component>
                 </Directory>
                 <?endif ?>
+                <?if $(sys.BUILDARCH) = arm64 ?>
+                <Directory Id="SYSTEMFOLDERARM64" SourceName="arm64">
+                    <Component Id="LayoutARM64" Guid="{A9363BC5-6FF4-467C-B360-DAC89F2D544C}" Win64="yes">
+                        <Condition>Arm64</Condition>
+                        <File Id="FILE_LAYOUT_ARM64" Name="ltenh.dll" KeyPath="yes" Source="..\arm64\ltenh.dll" />
+                    </Component>
+                </Directory>
+                <?endif ?>
                 <?if $(sys.BUILDARCH) = ia64 ?>
                 <Directory Id="SYSTEMFOLDERIA64" SourceName="ia64">
                     <Component Id="LayoutIA64" Guid="{4CC2C155-7578-484B-A15A-AA2F33A20D25}" Win64="yes">
@@ -79,6 +88,12 @@
         <Feature Id="DefaultFeatureX64" ConfigurableDirectory="SYSTEMFOLDERAMD64" Level="0">
             <ComponentRef Id="LayoutAMD64" />
             <Condition Level="1">Msix64</Condition>
+        </Feature>
+        <?endif ?>
+        <?if $(sys.BUILDARCH) = arm64 ?>
+        <Feature Id="DefaultFeatureArm64" ConfigurableDirectory="SYSTEMFOLDERARM64" Level="0">
+            <ComponentRef Id="LayoutARM64" />
+            <Condition Level="1">Arm64</Condition>
         </Feature>
         <?endif ?>
         <?if $(sys.BUILDARCH) = ia64 ?>
@@ -318,8 +333,9 @@
             <CreateFolders Sequence="3700" />
             <MoveFiles Sequence="3800" />
             <InstallFiles Sequence="4000" />
-            <Custom Action="SetFilePath" Sequence="4030">Not Msix64 And Not Intel64</Custom>
+            <Custom Action="SetFilePath" Sequence="4030">Not Msix64 And Not Intel64 And Not Arm64</Custom>
             <Custom Action="SetFilePathAmd64" Sequence="4032">Msix64</Custom>
+            <Custom Action="SetFilePathArm64" Sequence="4033">Arm64</Custom>
             <Custom Action="SetFilePathIa64" Sequence="4034">Intel64</Custom>
             <Custom Action="RegisterKeyboard" Sequence="4050">($RegistryKeys &gt;2)</Custom>
             <Custom Action="UnregisterKeyboard" Sequence="4060">($RegistryKeys =2)</Custom>
