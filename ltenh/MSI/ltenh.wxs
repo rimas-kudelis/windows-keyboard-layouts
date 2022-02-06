@@ -102,7 +102,7 @@
                     <Publish Event="EndDialog" Value="Return">1</Publish>
                 </Control>
                 <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="Cancel" TabSkip="no" Cancel="yes">
-                    <Publish Event="SpawnDialog" Value="Cancel" />
+                    <Publish Event="SpawnDialog" Value="CancelDialog" />
                 </Control>
                 <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="&lt; &amp;Back" TabSkip="no" Disabled="yes" />
                 <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
@@ -159,7 +159,7 @@
                 </Control>
                 <Control Id="RepairRadioGroup" Type="RadioButtonGroup" X="18" Y="88" Width="348" Height="48" Property="MaintenanceForm_Action" Text="MsiRadioButtonGroup" TabSkip="no" />
                 <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="Cancel" TabSkip="no" Cancel="yes">
-                    <Publish Event="SpawnDialog" Value="Cancel" />
+                    <Publish Event="SpawnDialog" Value="CancelDialog" />
                 </Control>
                 <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="&lt; &amp;Back" TabSkip="no" Disabled="yes" />
                 <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
@@ -238,7 +238,7 @@
                     <Publish Event="EndDialog" Value="Return">1</Publish>
                 </Control>
                 <Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="Cancel" TabSkip="no" Cancel="yes">
-                    <Publish Event="SpawnDialog" Value="Cancel" />
+                    <Publish Event="SpawnDialog" Value="CancelDialog" />
                 </Control>
                 <Control Id="PreviousButton" Type="PushButton" X="228" Y="261" Width="66" Height="18" Text="&lt; &amp;Back" TabSkip="no" Disabled="yes" />
                 <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
@@ -247,7 +247,7 @@
                 <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}Welcome to the [ProductName] Setup Wizard" TabSkip="yes" Transparent="yes" />
             </Dialog>
 
-            <Dialog Id="Cancel" X="50" Y="50" Width="271" Height="78" Title="[ProductName]" NoMinimize="yes">
+            <Dialog Id="CancelDialog" X="50" Y="50" Width="271" Height="78" Title="[ProductName]" NoMinimize="yes">
                 <Control Id="NoButton" Type="PushButton" X="198" Y="48" Width="65" Height="21" Text="&amp;No" TabSkip="no" Default="yes" Cancel="yes">
                     <Publish Event="EndDialog" Value="Return" />
                 </Control>
