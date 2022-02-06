@@ -22,13 +22,13 @@
                 <Directory Id="SYSTEMFOLDERI386" SourceName="i386">
                     <Component Id="LayoutI386" Guid="{57344B98-84AA-466E-BBB2-0DCD1A503FAE}" Win64="no">
                         <Condition>NOT VersionNT64</Condition>
-                        <File Id="FILE_LAYOUT_I386" Name="ltenh.dll" KeyPath="yes" DiskId="1" Source="..\i386\ltenh.dll" />
+                        <File Id="FILE_LAYOUT_I386" Name="ltenh.dll" KeyPath="yes" Source="..\i386\ltenh.dll" />
                     </Component>
                 </Directory>
                 <Directory Id="SYSTEMFOLDERWOW64" SourceName="wow64">
                     <Component Id="LayoutWOW64" Guid="{3E1F22E6-E742-4C1E-86A5-19DD3E892D59}" Win64="no">
                         <Condition>VersionNT64</Condition>
-                        <File Id="FILE_LAYOUT_WOW64" Name="ltenh.dll" KeyPath="yes" DiskId="1" Source="..\wow64\ltenh.dll" />
+                        <File Id="FILE_LAYOUT_WOW64" Name="ltenh.dll" KeyPath="yes" Source="..\wow64\ltenh.dll" />
                     </Component>
                 </Directory>
             </Directory>
@@ -37,13 +37,13 @@
                 <Directory Id="SYSTEMFOLDERAMD64" SourceName="amd64">
                     <Component Id="LayoutAMD64" Guid="{1EE08930-5343-40DD-B2D7-FE7360501ECE}" Win64="yes">
                         <Condition>Msix64</Condition>
-                        <File Id="FILE_LAYOUT_AMD64" Name="ltenh.dll" KeyPath="yes" DiskId="1" Source="..\amd64\ltenh.dll" />
+                        <File Id="FILE_LAYOUT_AMD64" Name="ltenh.dll" KeyPath="yes" Source="..\amd64\ltenh.dll" />
                     </Component>
                 </Directory>
                 <Directory Id="SYSTEMFOLDERIA64" SourceName="ia64">
                     <Component Id="LayoutIA64" Guid="{4CC2C155-7578-484B-A15A-AA2F33A20D25}" Win64="yes">
                         <Condition>Intel64</Condition>
-                        <File Id="FILE_LAYOUT_IA64" Name="ltenh.dll" KeyPath="yes" DiskId="1" Source="..\ia64\ltenh.dll" />
+                        <File Id="FILE_LAYOUT_IA64" Name="ltenh.dll" KeyPath="yes" Source="..\ia64\ltenh.dll" />
                     </Component>
                 </Directory>
             </Directory>
@@ -69,7 +69,7 @@
             <Condition Level="1">Msix64</Condition>
         </Feature>
 
-        <Media Id="1" EmbedCab="yes" Cabinet="Keyboard.cab" />
+        <MediaTemplate EmbedCab="yes" />
 
         <Property Id="MaintenanceForm_Action" Value="Remove" />
         <Property Id="ErrorDialog" Value="ErrorDialog" />
