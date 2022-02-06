@@ -97,6 +97,20 @@
                 <RadioButton Height="17" Text="&amp;Repair the keyboard layout." Value="Repair" Width="348" X="0" Y="18" />
             </RadioButtonGroup>
 
+            <Dialog Id="WelcomeForm" X="50" Y="50" Width="373" Height="187" Title="[ProductName]">
+                <Control Id="InstallButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="&amp;Install" TabSkip="no" Default="yes" ElevationShield="yes">
+                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                </Control>
+                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="Cancel" TabSkip="no" Cancel="yes">
+                    <Publish Event="SpawnDialog" Value="Cancel" />
+                </Control>
+                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+                <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="Line2" Type="Line" X="0" Y="152" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="80" Text="This application will install [ProductName] on your computer.&#xD;&#xA;&#xD;&#xA;Click &quot;Install&quot; to continue." TabSkip="yes" />
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}Welcome to the [ProductName] Setup Wizard" TabSkip="yes" Transparent="yes" />
+            </Dialog>
+
             <Dialog Id="FinishedForm" X="50" Y="50" Width="373" Height="187" Title="[ProductName]">
                 <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="&amp;Close" TabSkip="no" Default="yes" Cancel="yes">
                     <Publish Event="EndDialog" Value="Return">1</Publish>
@@ -136,7 +150,7 @@
             </Dialog>
 
             <Dialog Id="MaintenanceForm" X="50" Y="50" Width="373" Height="187" Title="[ProductName]">
-                <Control Id="FinishButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="&amp;Finish" TabSkip="no" Default="yes">
+                <Control Id="NextButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="&amp;Next" TabSkip="no" Default="yes" ElevationShield="yes">
                     <Publish Property="REINSTALL" Value="ALL">MaintenanceForm_Action="Repair"</Publish>
                     <Publish Event="Reinstall" Value="ALL">MaintenanceForm_Action="Repair"</Publish>
                     <Publish Property="REMOVE" Value="ALL">MaintenanceForm_Action="Remove"</Publish>
@@ -220,7 +234,7 @@
             </Dialog>
 
             <Dialog Id="ResumeForm" X="50" Y="50" Width="373" Height="187" Title="[ProductName]">
-                <Control Id="FinishButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="&amp;Finish" TabSkip="no" Default="yes">
+                <Control Id="NextButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="&amp;Next" TabSkip="no" Default="yes" ElevationShield="yes">
                     <Publish Event="EndDialog" Value="Return">1</Publish>
                 </Control>
                 <Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="Cancel" TabSkip="no" Cancel="yes">
@@ -334,6 +348,7 @@
             <CostInitialize Sequence="800" />
             <FileCost Sequence="900" />
             <IsolateComponents Sequence="950">RedirectedDllSupport</IsolateComponents>
+            <Show Dialog="WelcomeForm" Sequence="997">Installed="" AND NOT RESUME</Show>
             <Show Dialog="ResumeForm" Sequence="998">Installed="" AND RESUME</Show>
             <Show Dialog="MaintenanceForm" Sequence="999">Installed&lt;&gt;""</Show>
             <CostFinalize Sequence="1000" />
