@@ -6,7 +6,7 @@
     <String Id="PackageKeywords">Custom, Keyboard, Installer, MSI, database, MSKLC</String>
     <String Id="ConflictingFileMessage">Jūsų kompiuteryje aptiktas DLL failas tokiu pačiu vardu, kokį ketinama įdiegti ([KEYBOARD_ALREADY_PRESENT]).&#xD;&#xA;&#xD;&#xA;Įdiegimas nutraukiamas.</String>
     <String Id="Windows9xMessage">šis klaviatūros išdėstymas negali būti diegiamas į „Windows 95“, „Windows 98“ ir „Windows ME“ sistemas.&#xD;&#xA;&#xD;&#xA;Įdiegimas nutraukiamas.</String>
-    <String Id="UnsupportedPlatformMessage">Šis įdiegimo paketas yra skirtas kito tipo procesoriams, nei jūsų naudojamas.&#xD;&#xA;&#xD;&#xA;Įdiegimas nutraukiamas.</String>
+    <String Id="UnsupportedPlatformMessage">Šis įdiegimo paketas yra skirtas 32 bitų „Windows“ sistemoms, o jūsų kompiuteryje naudojama 64 bitų sistema.&#xD;&#xA;&#xD;&#xA;Įdiegimas nutraukiamas.</String>
 
     <!-- Common elements -->
     <String Id="WixUIBack">&amp;Atgal</String>

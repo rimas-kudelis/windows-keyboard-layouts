@@ -6,7 +6,7 @@
     <String Id="PackageKeywords">Custom, Keyboard, Installer, MSI, database, MSKLC</String>
     <String Id="ConflictingFileMessage">A conflicting DLL file ([KEYBOARD_ALREADY_PRESENT]) already exists on this computer.&#xD;&#xA;&#xD;&#xA;Installation cannot continue.</String>
     <String Id="Windows9xMessage">This keyboard layout cannot be installed on Windows 95, Windows 98, or Windows ME.&#xD;&#xA;&#xD;&#xA;Installation cannot continue.</String>
-    <String Id="UnsupportedPlatformMessage">This installation package is not supported by this processor type.&#xD;&#xA;&#xD;&#xA;Installation cannot continue.</String>
+    <String Id="UnsupportedPlatformMessage">This installation package is for 32-bit Windows installations, but yours is 64-bit.&#xD;&#xA;&#xD;&#xA;Installation cannot continue.</String>
     <!-- Common elements -->
     <String Id="WixUIBack">&amp;Back</String>
     <String Id="WixUINext">&amp;Next</String>
