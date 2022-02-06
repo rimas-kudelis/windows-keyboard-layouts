@@ -96,6 +96,10 @@
             </RadioButtonGroup>
 
             <Dialog Id="WelcomeForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.WelcomeBannerText)" TabSkip="yes" Transparent="yes" />
+                <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.WelcomeBodyText)" TabSkip="yes" />
+                <Control Id="Line2" Type="Line" X="0" Y="152" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="InstallButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="!(loc.InstallButtonText)" TabSkip="no" Default="yes" ElevationShield="yes">
                     <Publish Event="EndDialog" Value="Return">1</Publish>
                 </Control>
@@ -103,51 +107,52 @@
                     <Publish Event="SpawnDialog" Value="CancelDialog" />
                 </Control>
                 <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
-                <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="Line2" Type="Line" X="0" Y="152" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.WelcomeBodyText)" TabSkip="yes" />
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.WelcomeBannerText)" TabSkip="yes" Transparent="yes" />
             </Dialog>
 
             <Dialog Id="FinishedForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
-                <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="!(loc.CloseButtonText)" TabSkip="no" Default="yes" Cancel="yes">
-                    <Publish Event="EndDialog" Value="Return">1</Publish>
-                </Control>
-                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Disabled="yes" />
-                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
-                <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="Line2" Type="Line" X="0" Y="152" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FinishedBodyTextInstall)" TabSkip="yes">
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.FinishedBannerText)" TabSkip="yes" Transparent="yes" />
+                <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="BodyTextInstall" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FinishedBodyTextInstall)" TabSkip="yes">
                     <Condition Action="show">REMOVE=""</Condition>
                     <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
                 </Control>
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.FinishedBannerText)" TabSkip="yes" Transparent="yes" />
                 <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FinishedBodyTextRemove)" TabSkip="yes">
                     <Condition Action="show">REMOVE&lt;&gt;""</Condition>
                     <Condition Action="hide">REMOVE=""</Condition>
                 </Control>
-            </Dialog>
-
-            <Dialog Id="UserExitForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
+                <Control Id="Line2" Type="Line" X="0" Y="152" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="!(loc.CloseButtonText)" TabSkip="no" Default="yes" Cancel="yes">
                     <Publish Event="EndDialog" Value="Return">1</Publish>
                 </Control>
                 <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Disabled="yes" />
                 <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
-                <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="Line2" Type="Line" X="0" Y="152" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+            </Dialog>
+
+            <Dialog Id="UserExitForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
                 <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.UserExitBannerText)" TabSkip="yes" Transparent="yes" />
+                <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="BodyTextInstall" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.UserExitBodyTextInstall)" TabSkip="yes">
+                    <Condition Action="show">REMOVE=""</Condition>
+                    <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
+                </Control>
                 <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.UserExitBodyTextRemove)" TabSkip="yes">
                     <Condition Action="show">REMOVE&lt;&gt;""</Condition>
                     <Condition Action="hide">REMOVE=""</Condition>
                 </Control>
-                <Control Id="BodyTextInstall" Type="Text" X="18" Y="63" Width="354" Height="80" Text="!(loc.UserExitBodyTextInstall)" TabSkip="yes">
-                    <Condition Action="show">REMOVE=""</Condition>
-                    <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
+                <Control Id="Line2" Type="Line" X="0" Y="152" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="!(loc.CloseButtonText)" TabSkip="no" Default="yes" Cancel="yes">
+                    <Publish Event="EndDialog" Value="Return">1</Publish>
                 </Control>
+                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Disabled="yes" />
+                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
             </Dialog>
 
             <Dialog Id="MaintenanceForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="364" Height="33" Text="{\HeadingFont}!(loc.MaintenanceBannerText)" TabSkip="yes" Transparent="yes" />
+                <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="22" Text="!(loc.MaintenanceBodyText)" TabSkip="yes" />
+                <Control Id="RepairRadioGroup" Type="RadioButtonGroup" X="18" Y="88" Width="348" Height="48" Property="MaintenanceForm_Action" Text="MsiRadioButtonGroup" TabSkip="no" />
+                <Control Id="Line2" Type="Line" X="0" Y="152" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="NextButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="!(loc.WixUINext)" TabSkip="no" Default="yes" ElevationShield="yes">
                     <Publish Property="REINSTALL" Value="ALL">MaintenanceForm_Action="Repair"</Publish>
                     <Publish Event="Reinstall" Value="ALL">MaintenanceForm_Action="Repair"</Publish>
@@ -155,54 +160,63 @@
                     <Publish Event="Remove" Value="ALL">MaintenanceForm_Action="Remove"</Publish>
                     <Publish Event="EndDialog" Value="Return">1</Publish>
                 </Control>
-                <Control Id="RepairRadioGroup" Type="RadioButtonGroup" X="18" Y="88" Width="348" Height="48" Property="MaintenanceForm_Action" Text="MsiRadioButtonGroup" TabSkip="no" />
                 <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Cancel="yes">
                     <Publish Event="SpawnDialog" Value="CancelDialog" />
                 </Control>
                 <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
-                <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="Line2" Type="Line" X="0" Y="152" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="364" Height="22" Text="!(loc.MaintenanceBodyText)" TabSkip="yes" />
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="364" Height="23" Text="{\HeadingFont}!(loc.MaintenanceBannerText)" TabSkip="yes" Transparent="yes" />
+            </Dialog>
+
+            <Dialog Id="ResumeForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.ResumeBannerText)" TabSkip="yes" Transparent="yes" />
+                <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="180" Text="!(loc.ResumeBodyText)" TabSkip="yes" />
+                <Control Id="Line2" Type="Line" X="0" Y="152" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="NextButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="!(loc.WixUINext)" TabSkip="no" Default="yes" ElevationShield="yes">
+                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                </Control>
+                <Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Cancel="yes">
+                    <Publish Event="SpawnDialog" Value="CancelDialog" />
+                </Control>
+                <Control Id="PreviousButton" Type="PushButton" X="228" Y="261" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
             </Dialog>
 
             <Dialog Id="FatalErrorForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.FatalErrorBannerText)" TabSkip="yes" Transparent="yes" />
+                <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+                <Control Id="BodyTextInstall" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FatalErrorBodyTextInstall)" TabSkip="yes">
+                    <Condition Action="show">REMOVE=""</Condition>
+                    <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
+                </Control>
+                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FatalErrorBodyTextRemove)" TabSkip="yes">
+                    <Condition Action="show">REMOVE&lt;&gt;""</Condition>
+                    <Condition Action="hide">REMOVE=""</Condition>
+                </Control>
+                <Control Id="Line2" Type="Line" X="0" Y="152" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="!(loc.CloseButtonText)" TabSkip="no" Default="yes" Cancel="yes">
                     <Publish Event="EndDialog" Value="Return">1</Publish>
                 </Control>
                 <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Disabled="yes" />
                 <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
-                <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="Line2" Type="Line" X="0" Y="152" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.FatalErrorBannerText)" TabSkip="yes" Transparent="yes" />
-                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FatalErrorBodyTextRemove)" TabSkip="yes">
-                    <Condition Action="show">REMOVE&lt;&gt;""</Condition>
-                    <Condition Action="hide">REMOVE=""</Condition>
-                </Control>
-                <Control Id="BodyTextInstall" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FatalErrorBodyTextInstall)" TabSkip="yes">
-                    <Condition Action="show">REMOVE=""</Condition>
-                    <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
-                </Control>
             </Dialog>
 
             <Dialog Id="FilesInUse" X="50" Y="50" Width="361" Height="177" Title="!(loc.FilesInUseWindowTitle)" NoMinimize="yes">
-                <Control Id="RetryButton" Type="PushButton" X="99" Y="150" Width="81" Height="18" Text="!(loc.WixUIRetry)" TabSkip="no" Default="yes">
-                    <Publish Event="EndDialog" Value="Retry" />
+                <Control Id="InstallBodyText" Type="Text" X="6" Y="9" Width="345" Height="36" Text="!(loc.FilesInUseBodyTextInstall)" TabSkip="yes">
+                    <Condition Action="show">REMOVE=""</Condition>
+                    <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
                 </Control>
-                <Control Id="ContinueButton" Type="PushButton" X="99" Y="150" Width="81" Height="18" Text="!(loc.WixUIIgnore)" TabSkip="no">
-                    <Publish Event="EndDialog" Value="Ignore" />
-                </Control>
-                <Control Id="ExitButton" Type="PushButton" X="273" Y="150" Width="81" Height="18" Text="!(loc.AbortButtonText)" TabSkip="no" Cancel="yes">
-                    <Publish Event="EndDialog" Value="Exit" />
-                </Control>
-                <Control Id="ListFilesInUse" Type="ListBox" X="6" Y="51" Width="348" Height="90" Property="FileInUseProcess" Text="MsiFilesInUse" TabSkip="no" Sunken="yes" Sorted="yes" />
                 <Control Id="RemoveBodyText" Type="Text" X="6" Y="9" Width="345" Height="36" Text="!(loc.FilesInUseBodyTextRemove)" TabSkip="yes">
                     <Condition Action="show">REMOVE&lt;&gt;""</Condition>
                     <Condition Action="hide">REMOVE=""</Condition>
                 </Control>
-                <Control Id="InstallBodyText" Type="Text" X="6" Y="9" Width="345" Height="36" Text="!(loc.FilesInUseBodyTextInstall)" TabSkip="yes">
-                    <Condition Action="show">REMOVE=""</Condition>
-                    <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
+                <Control Id="ListFilesInUse" Type="ListBox" X="6" Y="51" Width="348" Height="90" Property="FileInUseProcess" Text="MsiFilesInUse" TabSkip="no" Sunken="yes" Sorted="yes" />
+                <Control Id="RetryButton" Type="PushButton" X="99" Y="150" Width="81" Height="18" Text="!(loc.WixUIRetry)" TabSkip="no" Default="yes">
+                    <Publish Event="EndDialog" Value="Retry" />
+                </Control>
+                <Control Id="ContinueButton" Type="PushButton" X="186" Y="150" Width="81" Height="18" Text="!(loc.WixUIIgnore)" TabSkip="no">
+                    <Publish Event="EndDialog" Value="Ignore" />
+                </Control>
+                <Control Id="ExitButton" Type="PushButton" X="273" Y="150" Width="81" Height="18" Text="!(loc.AbortButtonText)" TabSkip="no" Cancel="yes">
+                    <Publish Event="EndDialog" Value="Exit" />
                 </Control>
             </Dialog>
 
@@ -231,28 +245,14 @@
                 </Control>
             </Dialog>
 
-            <Dialog Id="ResumeForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
-                <Control Id="NextButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="!(loc.WixUINext)" TabSkip="no" Default="yes" ElevationShield="yes">
-                    <Publish Event="EndDialog" Value="Return">1</Publish>
-                </Control>
-                <Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Cancel="yes">
-                    <Publish Event="SpawnDialog" Value="CancelDialog" />
-                </Control>
-                <Control Id="PreviousButton" Type="PushButton" X="228" Y="261" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
-                <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="Line2" Type="Line" X="0" Y="252" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="180" Text="!(loc.ResumeBodyText)" TabSkip="yes" />
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.ResumeBannerText)" TabSkip="yes" Transparent="yes" />
-            </Dialog>
-
             <Dialog Id="CancelDialog" X="50" Y="50" Width="271" Height="78" Title="!(loc.WindowTitle)" NoMinimize="yes">
+                <Control Id="BodyText" Type="Text" X="6" Y="9" Width="258" Height="24" Text="!(loc.CancelBodyText)" TabSkip="yes" />
                 <Control Id="NoButton" Type="PushButton" X="198" Y="48" Width="65" Height="21" Text="!(loc.WixUINo)" TabSkip="no" Default="yes" Cancel="yes">
                     <Publish Event="EndDialog" Value="Return" />
                 </Control>
                 <Control Id="YesButton" Type="PushButton" X="126" Y="48" Width="65" Height="21" Text="!(loc.WixUIYes)" TabSkip="no">
                     <Publish Event="EndDialog" Value="Exit" />
                 </Control>
-                <Control Id="BodyText" Type="Text" X="6" Y="9" Width="258" Height="24" Text="!(loc.CancelBodyText)" TabSkip="yes" />
             </Dialog>
         </UI>
 
