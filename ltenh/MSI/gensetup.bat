@@ -7,17 +7,27 @@ echo 2. Open this file and make sure that the "PATH" variable is set to contain 
 set /p CONTINUE="Do you want to continue [y/N]? "
 if /i "%CONTINUE%" NEQ "Y" GOTO END
 
+@echo on
 set "PATH=%PATH%;C:\Users\Rimas\Downloads\wix311-binaries\"
 
-candle.exe .\ltenh.wxs -arch x64 -out ltenh_amd64.wixobj
-candle.exe .\ltenh.wxs -arch x86 -out ltenh_i386.wixobj
-candle.exe .\ltenh.wxs -arch ia64 -out ltenh_ia64.wixobj
+candle.exe .\KbdMsi.wxs -arch x64 -out KbdMsi_amd64.wixobj || GOTO ERROR
+candle.exe .\ltenh.wxs -arch x64 -out ltenh_amd64.wixobj || GOTO ERROR
 
-light.exe .\ltenh_amd64.wixobj
-light.exe .\ltenh_i386.wixobj
-light.exe .\ltenh_ia64.wixobj
+candle.exe .\KbdMsi.wxs -arch x86 -out KbdMsi_i386.wixobj || GOTO ERROR
+candle.exe .\ltenh.wxs -arch x86 -out ltenh_i386.wixobj || GOTO ERROR
+
+candle.exe .\KbdMsi.wxs -arch ia64 -out KbdMsi_ia64.wixobj || GOTO ERROR
+candle.exe .\ltenh.wxs -arch ia64 -out ltenh_ia64.wixobj || GOTO ERROR
+
+light.exe .\ltenh_amd64.wixobj KbdMsi_amd64.wixobj -cultures:en-us,lt-lt -out ltenh_amd64.msi
+light.exe .\ltenh_i386.wixobj KbdMsi_i386.wixobj -cultures:en-us;lt-lt -out ltenh_i386.msi
+light.exe .\ltenh_ia64.wixobj KbdMsi_ia64.wixobj -cultures:en-us;lt-lt -out ltenh_ia64.msi
 
 del *.wixobj *.wixpdb
-:END
+@goto END
 
-endlocal
+:ERROR
+@echo An error has been encountered. Script execution has been aborted.
+
+:END
+@endlocal
