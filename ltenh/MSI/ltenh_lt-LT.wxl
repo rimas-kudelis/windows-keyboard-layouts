@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WixLocalization Culture="lt-lt" Codepage="1257" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="ProductSummaryCodepage">1257</String>
+    <String Id="ProductLanguageCode">1063</String><!-- Decimal LCID for the installer -->
+    <String Id="LCIDValue">0427</String><!-- Hex LCID of the layout language -->
     <String Id="ProductName">Lietuvių papildytasis klaviatūros išdėstymas</String>
     <String Id="ProductManufacturer">Rimas Kudelis</String>
     <String Id="PackageDescription">Lietuvių papildytojo klaviatūros išdėstymo įdiegimo vedlys</String>

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="{05176305-42C9-443F-927C-41E4F9470249}" Codepage="65001" Language="1033" Manufacturer="!(loc.ProductManufacturer)" Name="!(loc.ProductName)" UpgradeCode="{8E0A18CA-D0EF-4F46-9D71-1377301A70AC}" Version="1.0.3.40">
-        <Package Description="!(loc.PackageDescription)" InstallerVersion="200" Keywords="!(loc.PackageKeywords)" Languages="1033" Manufacturer="!(loc.ProductManufacturer)" Compressed="yes" />
+    <Product Id="{05176305-42C9-443F-927C-41E4F9470249}" Codepage="65001" Language="!(loc.ProductLanguageCode)" Manufacturer="!(loc.ProductManufacturer)" Name="!(loc.ProductName)" UpgradeCode="{8E0A18CA-D0EF-4F46-9D71-1377301A70AC}" Version="1.0.3.40">
+        <Package Description="!(loc.PackageDescription)" Keywords="!(loc.PackageKeywords)" Languages="!(loc.ProductLanguageCode)" Manufacturer="!(loc.ProductManufacturer)" Compressed="yes" SummaryCodepage="!(loc.ProductSummaryCodepage)" />
 
         <Condition Message="!(loc.ConflictingFileMessage)">KEYBOARD_ALREADY_PRESENT="" Or Installed</Condition>
         <Condition Message="!(loc.Windows9xMessage)">NOT Version9X</Condition>
         <?if $(sys.BUILDARCH) = x86 ?>
-                <Condition Message="!(loc.UnsupportedPlatformMessage)">Not Msix64</Condition>
-                <Condition Message="!(loc.UnsupportedPlatformMessage)">Not Intel64</Condition>
+        <Condition Message="!(loc.UnsupportedPlatformMessage)">Not Msix64</Condition>
+        <Condition Message="!(loc.UnsupportedPlatformMessage)">Not Intel64</Condition>
+        <Condition Message="!(loc.UnsupportedPlatformMessage)">Not Arm64</Condition>
         <?endif ?>
 
         <CustomAction Id="DIRCA_TARGETDIR" Property="TARGETDIR" Value="[SystemFolder]" Execute="firstSequence" />
@@ -19,61 +20,79 @@
             <Component Id="RegistryKeys" Guid="{4A4EAE0D-5F66-4E3D-AAC4-27F121FDBC53}" KeyPath="yes" />
 
             <Directory Id="SystemFolder">
+                <?if $(sys.BUILDARCH) = x86 ?>
                 <Directory Id="SYSTEMFOLDERI386" SourceName="i386">
                     <Component Id="LayoutI386" Guid="{57344B98-84AA-466E-BBB2-0DCD1A503FAE}" Win64="no">
                         <Condition>NOT VersionNT64</Condition>
                         <File Id="FILE_LAYOUT_I386" Name="ltenh.dll" KeyPath="yes" Source="..\i386\ltenh.dll" />
                     </Component>
                 </Directory>
+                <?endif ?>
+                <?if $(sys.BUILDARCH) != x86 ?>
                 <Directory Id="SYSTEMFOLDERWOW64" SourceName="wow64">
                     <Component Id="LayoutWOW64" Guid="{3E1F22E6-E742-4C1E-86A5-19DD3E892D59}" Win64="no">
                         <Condition>VersionNT64</Condition>
                         <File Id="FILE_LAYOUT_WOW64" Name="ltenh.dll" KeyPath="yes" Source="..\wow64\ltenh.dll" />
                     </Component>
                 </Directory>
+                <?endif ?>
             </Directory>
 
+            <?if $(sys.BUILDARCH) != x86 ?>
             <Directory Id="System64Folder">
+                <?if $(sys.BUILDARCH) = x64 ?>
                 <Directory Id="SYSTEMFOLDERAMD64" SourceName="amd64">
                     <Component Id="LayoutAMD64" Guid="{1EE08930-5343-40DD-B2D7-FE7360501ECE}" Win64="yes">
                         <Condition>Msix64</Condition>
                         <File Id="FILE_LAYOUT_AMD64" Name="ltenh.dll" KeyPath="yes" Source="..\amd64\ltenh.dll" />
                     </Component>
                 </Directory>
+                <?endif ?>
+                <?if $(sys.BUILDARCH) = ia64 ?>
                 <Directory Id="SYSTEMFOLDERIA64" SourceName="ia64">
                     <Component Id="LayoutIA64" Guid="{4CC2C155-7578-484B-A15A-AA2F33A20D25}" Win64="yes">
                         <Condition>Intel64</Condition>
                         <File Id="FILE_LAYOUT_IA64" Name="ltenh.dll" KeyPath="yes" Source="..\ia64\ltenh.dll" />
                     </Component>
                 </Directory>
+                <?endif ?>
             </Directory>
+            <?endif ?>
         </Directory>
 
         <Feature Id="DefaultFeature" Level="1">
             <ComponentRef Id="RegistryKeys" />
         </Feature>
+        <?if $(sys.BUILDARCH) = x86 ?>
         <Feature Id="DefaultFeatureI386" ConfigurableDirectory="SYSTEMFOLDERI386" Level="0">
             <ComponentRef Id="LayoutI386" />
             <Condition Level="1">NOT VersionNT64</Condition>
         </Feature>
-        <Feature Id="DefaultFeatureIa64" ConfigurableDirectory="SYSTEMFOLDERIA64" Level="0">
-            <ComponentRef Id="LayoutIA64" />
-            <Condition Level="1">Intel64</Condition>
-        </Feature>
+        <?endif ?>
+        <?if $(sys.BUILDARCH) != x86 ?>
         <Feature Id="DefaultFeatureWow64" ConfigurableDirectory="SYSTEMFOLDERWOW64" Level="0">
             <ComponentRef Id="LayoutWOW64" />
             <Condition Level="1">VersionNT64</Condition>
         </Feature>
+        <?endif ?>
+        <?if $(sys.BUILDARCH) = x64 ?>
         <Feature Id="DefaultFeatureX64" ConfigurableDirectory="SYSTEMFOLDERAMD64" Level="0">
             <ComponentRef Id="LayoutAMD64" />
             <Condition Level="1">Msix64</Condition>
         </Feature>
+        <?endif ?>
+        <?if $(sys.BUILDARCH) = ia64 ?>
+        <Feature Id="DefaultFeatureIa64" ConfigurableDirectory="SYSTEMFOLDERIA64" Level="0">
+            <ComponentRef Id="LayoutIA64" />
+            <Condition Level="1">Intel64</Condition>
+        </Feature>
+        <?endif ?>
 
         <MediaTemplate EmbedCab="yes" />
 
         <Property Id="MaintenanceForm_Action" Value="Remove" />
         <Property Id="ErrorDialog" Value="ErrorDialog" />
-        <Property Id="LCIDValue" Value="0427" />
+        <Property Id="LCIDValue" Value="!(loc.LCIDValue)" />
         <Property Id="DefaultUIFont" Value="KbdDefaultUIFont" />
         <Property Id="ARPCONTACT" Value="!(loc.ProductManufacturer)" />
         <Property Id="LayoutFile" Value="ltenh.dll" />
@@ -81,9 +100,11 @@
             <DirectorySearch Id="SystemKeyboardFile" Path="[SystemFolder]" Depth="0">
                 <FileSearch Id="SystemKeyboardFile" ShortName="ltenh.dll" />
             </DirectorySearch>
+            <?if $(sys.BUILDARCH) != x86 ?>
             <DirectorySearch Id="System64KeyboardFile" Path="[System64Folder]" Depth="0">
                 <FileSearch Id="System64KeyboardFile" ShortName="ltenh.dll" />
             </DirectorySearch>
+            <?endif ?>
         </Property>
 
         <UI>
