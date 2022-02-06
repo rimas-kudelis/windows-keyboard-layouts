@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" Codepage="1252" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="ProductName">Lithuanian (Enhanced)</String>
+    <String Id="ProductManufacturer">Rimas Kudelis</String>
+    <String Id="PackageDescription">Lithuanian (Enhanced) keyboard layout installer</String>
+    <String Id="PackageKeywords">Custom, Keyboard, Installer, MSI, database, MSKLC</String>
+    <String Id="ConflictingFileMessage">A conflicting DLL file ([KEYBOARD_ALREADY_PRESENT]) already exists on this computer.&#xD;&#xA;&#xD;&#xA;Installation cannot continue.</String>
+    <String Id="Windows9xMessage">This keyboard layout cannot be installed on Windows 95, Windows 98, or Windows ME.&#xD;&#xA;&#xD;&#xA;Installation cannot continue.</String>
+    <String Id="UnsupportedPlatformMessage">This installation package is not supported by this processor type.&#xD;&#xA;&#xD;&#xA;Installation cannot continue.</String>
+    <!-- Common elements -->
+    <String Id="WixUIBack">&amp;Back</String>
+    <String Id="WixUINext">&amp;Next</String>
+    <String Id="WixUICancel">Cancel</String>
+    <String Id="WixUIFinish">&amp;Finish</String>
+    <String Id="WixUIRetry">&amp;Try Again</String>
+    <String Id="WixUIIgnore">&amp;Continue</String>
+    <String Id="WixUIYes">&amp;Yes</String>
+    <String Id="WixUINo">&amp;No</String>
+    <String Id="WixUIOK">OK</String>
+
+    <String Id="InstallButtonText">&amp;Install</String>
+    <String Id="CloseButtonText">&amp;Close</String>
+    <String Id="AbortButtonText">&amp;Exit Installation</String>
+    <String Id="WindowTitle">[ProductName] Setup</String>
+
+    <!-- Welcome dialog -->
+    <String Id="WelcomeBannerText">Welcome to the [ProductName] Setup Wizard</String>
+    <String Id="WelcomeBodyText">This application will install [ProductName] on your computer.&#xD;&#xA;&#xD;&#xA;Click &quot;Install&quot; to continue.</String>
+
+    <!-- Finished dialog -->
+    <String Id="FinishedBannerText">Installation Complete</String>
+    <String Id="FinishedBodyTextInstall">[ProductName] has been successfully installed.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit.</String>
+    <String Id="FinishedBodyTextRemove">[ProductName] has been successfully removed.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit.</String>
+
+    <!-- Installation Interrupted dialog -->
+    <String Id="UserExitBannerText">Installation Interrupted</String>
+    <String Id="UserExitBodyTextInstall">The installer was interrupted before [ProductName] could be installed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit.</String>
+    <String Id="UserExitBodyTextRemove">The installer was interrupted before [ProductName] could be removed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit.</String>
+
+    <!-- Maintenance dialog -->
+    <String Id="MaintenanceBannerText">Welcome to the [ProductName] Setup Wizard</String>
+    <String Id="MaintenanceBodyText">Select whether you want to repair or remove [ProductName].</String>
+    <String Id="MaintenanceRemoveText">&amp;Remove the keyboard layout.</String>
+    <String Id="MaintenanceRepairText">&amp;Repair the keyboard layout.</String>
+
+    <!-- Fatal Error dialog -->
+    <String Id="FatalErrorBannerText">Installation Incomplete</String>
+    <String Id="FatalErrorBodyTextInstall">The installer was interrupted before [ProductName] could be installed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit.</String>
+    <String Id="FatalErrorBodyTextRemove">The installer was interrupted before [ProductName] could be removed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit.</String>
+
+    <!-- Files in Use dialog -->
+    <String Id="FilesInUseWindowTitle">[ProductName]: Files in Use</String>
+    <String Id="FilesInUseBodyTextInstall">The following applications are using files which the installer must update. You can either close the applications and click &quot;Try Again&quot;, or click &quot;Continue&quot; so that the installer continues the installation, and replaces these files when your system restarts.</String>
+    <String Id="FilesInUseBodyTextRemove">The following applications are using files which the installer must remove. You can either close the applications and click &quot;Try Again&quot;, or click &quot;Continue&quot; so that the installer continues the installation, and removes these files when your system restarts.</String>
+
+    <!-- Resume Installation dialog -->
+    <String Id="ResumeBannerText">Welcome to the [ProductName] Setup Wizard</String>
+    <String Id="ResumeBodyText">The installer will resume the installation of [ProductName] on your computer.&#xD;&#xA;&#xD;&#xA;Click &quot;Next&quot; to continue.</String>
+
+    <!-- Cancel dialog -->
+    <String Id="CancelBodyText">The installation is not yet complete. Are you sure you want to exit?</String>
+</WixLocalization>

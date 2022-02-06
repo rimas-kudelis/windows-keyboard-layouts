@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="{05176305-42C9-443F-927C-41E4F9470249}" Codepage="65001" Language="1033" Manufacturer="Rimas Kudelis" Name="Lithuanian (Enhanced)" UpgradeCode="{8E0A18CA-D0EF-4F46-9D71-1377301A70AC}" Version="1.0.3.40">
-        <Package Description="Lithuanian (Enhanced) keyboard layout installer" InstallerVersion="200" Keywords="Custom, Keyboard, Installer, MSI, database, MSKLC" Languages="1033" Manufacturer="Rimas Kudelis" SummaryCodepage="1257" Compressed="yes" />
+    <Product Id="{05176305-42C9-443F-927C-41E4F9470249}" Codepage="65001" Language="1033" Manufacturer="!(loc.ProductManufacturer)" Name="!(loc.ProductName)" UpgradeCode="{8E0A18CA-D0EF-4F46-9D71-1377301A70AC}" Version="1.0.3.40">
+        <Package Description="!(loc.PackageDescription)" InstallerVersion="200" Keywords="!(loc.PackageKeywords)" Languages="1033" Manufacturer="!(loc.ProductManufacturer)" Compressed="yes" />
 
-        <Condition Message="A conflicting DLL file ([KEYBOARD_ALREADY_PRESENT]) already exists on this machine.&#xD;&#xA;&#xD;&#xA;Installation cannot continue.">KEYBOARD_ALREADY_PRESENT="" Or Installed</Condition>
-        <Condition Message="This keyboard layout cannot be installed on Windows 95, Windows 98, or Windows ME.&#xD;&#xA;&#xD;&#xA;Installation cannot continue.">NOT Version9X</Condition>
+        <Condition Message="!(loc.ConflictingFileMessage)">KEYBOARD_ALREADY_PRESENT="" Or Installed</Condition>
+        <Condition Message="!(loc.Windows9xMessage)">NOT Version9X</Condition>
         <?if $(sys.BUILDARCH) = x86 ?>
-                <Condition Message="This installation package is not supported by this processor type. Contact your product vendor.">Not Msix64</Condition>
-                <Condition Message="This installation package is not supported by this processor type. Contact your product vendor.">Not Intel64</Condition>
+                <Condition Message="!(loc.UnsupportedPlatformMessage)">Not Msix64</Condition>
+                <Condition Message="!(loc.UnsupportedPlatformMessage)">Not Intel64</Condition>
         <?endif ?>
 
         <CustomAction Id="DIRCA_TARGETDIR" Property="TARGETDIR" Value="[SystemFolder]" Execute="firstSequence" />
@@ -73,11 +73,9 @@
 
         <Property Id="MaintenanceForm_Action" Value="Remove" />
         <Property Id="ErrorDialog" Value="ErrorDialog" />
-        <Property Id="KLCVERSIONMSG" Value="Unable to install because a newer version of this keyboard is already installed." />
-        <Property Id="NEWERPRODUCTFOUND" Secure="yes" />
         <Property Id="LCIDValue" Value="0427" />
         <Property Id="DefaultUIFont" Value="KbdDefaultUIFont" />
-        <Property Id="ARPCONTACT" Value="Rimas Kudelis" />
+        <Property Id="ARPCONTACT" Value="!(loc.ProductManufacturer)" />
         <Property Id="LayoutFile" Value="ltenh.dll" />
         <Property Id="KEYBOARD_ALREADY_PRESENT">
             <DirectorySearch Id="SystemKeyboardFile" Path="[SystemFolder]" Depth="0">
@@ -93,64 +91,64 @@
             <TextStyle Id="HeadingFont" FaceName="Segoe UI" Size="12" Red="0" Green="0" Blue="0" Bold="yes" />
 
             <RadioButtonGroup Property="MaintenanceForm_Action">
-                <RadioButton Height="17" Text="&amp;Remove the keyboard layout." Value="Remove" Width="348" X="0" Y="0" />
-                <RadioButton Height="17" Text="&amp;Repair the keyboard layout." Value="Repair" Width="348" X="0" Y="18" />
+                <RadioButton Height="17" Text="!(loc.MaintenanceRemoveText)" Value="Remove" Width="348" X="0" Y="0" />
+                <RadioButton Height="17" Text="!(loc.MaintenanceRepairText)" Value="Repair" Width="348" X="0" Y="18" />
             </RadioButtonGroup>
 
-            <Dialog Id="WelcomeForm" X="50" Y="50" Width="373" Height="187" Title="[ProductName]">
-                <Control Id="InstallButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="&amp;Install" TabSkip="no" Default="yes" ElevationShield="yes">
+            <Dialog Id="WelcomeForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
+                <Control Id="InstallButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="!(loc.InstallButtonText)" TabSkip="no" Default="yes" ElevationShield="yes">
                     <Publish Event="EndDialog" Value="Return">1</Publish>
                 </Control>
-                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="Cancel" TabSkip="no" Cancel="yes">
+                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Cancel="yes">
                     <Publish Event="SpawnDialog" Value="CancelDialog" />
                 </Control>
-                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
                 <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="Line2" Type="Line" X="0" Y="152" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="80" Text="This application will install [ProductName] on your computer.&#xD;&#xA;&#xD;&#xA;Click &quot;Install&quot; to continue." TabSkip="yes" />
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}Welcome to the [ProductName] Setup Wizard" TabSkip="yes" Transparent="yes" />
+                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.WelcomeBodyText)" TabSkip="yes" />
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.WelcomeBannerText)" TabSkip="yes" Transparent="yes" />
             </Dialog>
 
-            <Dialog Id="FinishedForm" X="50" Y="50" Width="373" Height="187" Title="[ProductName]">
-                <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="&amp;Close" TabSkip="no" Default="yes" Cancel="yes">
+            <Dialog Id="FinishedForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
+                <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="!(loc.CloseButtonText)" TabSkip="no" Default="yes" Cancel="yes">
                     <Publish Event="EndDialog" Value="Return">1</Publish>
                 </Control>
-                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="Cancel" TabSkip="no" Disabled="yes" />
-                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Disabled="yes" />
+                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
                 <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="Line2" Type="Line" X="0" Y="152" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="80" Text="[ProductName] has been successfully installed.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." TabSkip="yes">
+                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FinishedBodyTextInstall)" TabSkip="yes">
                     <Condition Action="show">REMOVE=""</Condition>
                     <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
                 </Control>
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}Installation Complete" TabSkip="yes" Transparent="yes" />
-                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="[ProductName] has been successfully removed.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." TabSkip="yes">
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.FinishedBannerText)" TabSkip="yes" Transparent="yes" />
+                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FinishedBodyTextRemove)" TabSkip="yes">
                     <Condition Action="show">REMOVE&lt;&gt;""</Condition>
                     <Condition Action="hide">REMOVE=""</Condition>
                 </Control>
             </Dialog>
 
-            <Dialog Id="UserExitForm" X="50" Y="50" Width="373" Height="187" Title="[ProductName]">
-                <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="&amp;Close" TabSkip="no" Default="yes" Cancel="yes">
+            <Dialog Id="UserExitForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
+                <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="!(loc.CloseButtonText)" TabSkip="no" Default="yes" Cancel="yes">
                     <Publish Event="EndDialog" Value="Return">1</Publish>
                 </Control>
-                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="Cancel" TabSkip="no" Disabled="yes" />
-                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Disabled="yes" />
+                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
                 <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="Line2" Type="Line" X="0" Y="152" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}Installation Interrupted" TabSkip="yes" Transparent="yes" />
-                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="The installer was interrupted before [ProductName] could be removed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." TabSkip="yes">
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.UserExitBannerText)" TabSkip="yes" Transparent="yes" />
+                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.UserExitBodyTextRemove)" TabSkip="yes">
                     <Condition Action="show">REMOVE&lt;&gt;""</Condition>
                     <Condition Action="hide">REMOVE=""</Condition>
                 </Control>
-                <Control Id="BodyTextInstall" Type="Text" X="18" Y="63" Width="342" Height="24" Text="The installation was interrupted before [ProductName] could be installed. You need to restart the installer to try again." TabSkip="yes">
+                <Control Id="BodyTextInstall" Type="Text" X="18" Y="63" Width="354" Height="80" Text="!(loc.UserExitBodyTextInstall)" TabSkip="yes">
                     <Condition Action="show">REMOVE=""</Condition>
                     <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
                 </Control>
             </Dialog>
 
-            <Dialog Id="MaintenanceForm" X="50" Y="50" Width="373" Height="187" Title="[ProductName]">
-                <Control Id="NextButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="&amp;Next" TabSkip="no" Default="yes" ElevationShield="yes">
+            <Dialog Id="MaintenanceForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
+                <Control Id="NextButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="!(loc.WixUINext)" TabSkip="no" Default="yes" ElevationShield="yes">
                     <Publish Property="REINSTALL" Value="ALL">MaintenanceForm_Action="Repair"</Publish>
                     <Publish Event="Reinstall" Value="ALL">MaintenanceForm_Action="Repair"</Publish>
                     <Publish Property="REMOVE" Value="ALL">MaintenanceForm_Action="Remove"</Publish>
@@ -158,103 +156,103 @@
                     <Publish Event="EndDialog" Value="Return">1</Publish>
                 </Control>
                 <Control Id="RepairRadioGroup" Type="RadioButtonGroup" X="18" Y="88" Width="348" Height="48" Property="MaintenanceForm_Action" Text="MsiRadioButtonGroup" TabSkip="no" />
-                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="Cancel" TabSkip="no" Cancel="yes">
+                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Cancel="yes">
                     <Publish Event="SpawnDialog" Value="CancelDialog" />
                 </Control>
-                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
                 <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="Line2" Type="Line" X="0" Y="152" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="364" Height="22" Text="Select whether you want to repair or remove [ProductName]." TabSkip="yes" />
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="364" Height="23" Text="{\HeadingFont}Welcome to the [ProductName] Setup Wizard" TabSkip="yes" Transparent="yes" />
+                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="364" Height="22" Text="!(loc.MaintenanceBodyText)" TabSkip="yes" />
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="364" Height="23" Text="{\HeadingFont}!(loc.MaintenanceBannerText)" TabSkip="yes" Transparent="yes" />
             </Dialog>
 
-            <Dialog Id="FatalErrorForm" X="50" Y="50" Width="373" Height="187" Title="[ProductName]">
-                <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="&amp;Close" TabSkip="no" Default="yes" Cancel="yes">
+            <Dialog Id="FatalErrorForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
+                <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="!(loc.CloseButtonText)" TabSkip="no" Default="yes" Cancel="yes">
                     <Publish Event="EndDialog" Value="Return">1</Publish>
                 </Control>
-                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="Cancel" TabSkip="no" Disabled="yes" />
-                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+                <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Disabled="yes" />
+                <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
                 <Control Id="Line1" Type="Line" X="0" Y="52" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="Line2" Type="Line" X="0" Y="152" Width="372" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="Installation Incomplete" TabSkip="yes" Transparent="yes" />
-                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="The installer was interrupted before [ProductName] could be installed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." TabSkip="yes">
-                    <Condition Action="show">REMOVE=""</Condition>
-                    <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
-                </Control>
-                <Control Id="BodyTextInstall" Type="Text" X="9" Y="63" Width="354" Height="80" Text="The installer was interrupted before [ProductName] could be removed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." TabSkip="yes">
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.FatalErrorBannerText)" TabSkip="yes" Transparent="yes" />
+                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FatalErrorBodyTextRemove)" TabSkip="yes">
                     <Condition Action="show">REMOVE&lt;&gt;""</Condition>
                     <Condition Action="hide">REMOVE=""</Condition>
                 </Control>
+                <Control Id="BodyTextInstall" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FatalErrorBodyTextInstall)" TabSkip="yes">
+                    <Condition Action="show">REMOVE=""</Condition>
+                    <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
+                </Control>
             </Dialog>
 
-            <Dialog Id="FilesInUse" X="50" Y="50" Width="361" Height="177" Title="[ProductName] Files in Use" NoMinimize="yes">
-                <Control Id="RetryButton" Type="PushButton" X="99" Y="150" Width="81" Height="18" Text="&amp;Try Again" TabSkip="no" Default="yes">
+            <Dialog Id="FilesInUse" X="50" Y="50" Width="361" Height="177" Title="!(loc.FilesInUseWindowTitle)" NoMinimize="yes">
+                <Control Id="RetryButton" Type="PushButton" X="99" Y="150" Width="81" Height="18" Text="!(loc.WixUIRetry)" TabSkip="no" Default="yes">
                     <Publish Event="EndDialog" Value="Retry" />
                 </Control>
-                <Control Id="ContinueButton" Type="PushButton" X="99" Y="150" Width="81" Height="18" Text="&amp;Try Again" TabSkip="no">
+                <Control Id="ContinueButton" Type="PushButton" X="99" Y="150" Width="81" Height="18" Text="!(loc.WixUIIgnore)" TabSkip="no">
                     <Publish Event="EndDialog" Value="Ignore" />
                 </Control>
-                <Control Id="ExitButton" Type="PushButton" X="273" Y="150" Width="81" Height="18" Text="&amp;Exit Installation" TabSkip="no" Cancel="yes">
+                <Control Id="ExitButton" Type="PushButton" X="273" Y="150" Width="81" Height="18" Text="!(loc.AbortButtonText)" TabSkip="no" Cancel="yes">
                     <Publish Event="EndDialog" Value="Exit" />
                 </Control>
                 <Control Id="ListFilesInUse" Type="ListBox" X="6" Y="51" Width="348" Height="90" Property="FileInUseProcess" Text="MsiFilesInUse" TabSkip="no" Sunken="yes" Sorted="yes" />
-                <Control Id="RemoveBodyText" Type="Text" X="6" Y="9" Width="345" Height="36" Text="The following applications are using files which the installer must remove. You can either close the applications and click &quot;Try Again&quot;, or click &quot;Continue&quot; so that the installer continues the installation, and replaces these files when your system restarts." TabSkip="yes">
+                <Control Id="RemoveBodyText" Type="Text" X="6" Y="9" Width="345" Height="36" Text="!(loc.FilesInUseBodyTextRemove)" TabSkip="yes">
                     <Condition Action="show">REMOVE&lt;&gt;""</Condition>
                     <Condition Action="hide">REMOVE=""</Condition>
                 </Control>
-                <Control Id="InstallBodyText" Type="Text" X="6" Y="9" Width="345" Height="36" Text="The following applications are using files which the installer must update. You can either close the applications and click &quot;Try Again&quot;, or click &quot;Continue&quot; so that the installer continues the installation, and replaces these files when your system restarts." TabSkip="yes">
+                <Control Id="InstallBodyText" Type="Text" X="6" Y="9" Width="345" Height="36" Text="!(loc.FilesInUseBodyTextInstall)" TabSkip="yes">
                     <Condition Action="show">REMOVE=""</Condition>
                     <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
                 </Control>
             </Dialog>
 
-            <Dialog Id="ErrorDialog" X="50" Y="50" Width="330" Height="101" Title="[ProductName]" ErrorDialog="yes">
+            <Dialog Id="ErrorDialog" X="50" Y="50" Width="330" Height="101" Title="!(loc.WindowTitle)" ErrorDialog="yes">
                 <Control Id="ErrorText" Type="Text" X="6" Y="9" Width="318" Height="48" TabSkip="no" Disabled="yes" />
-                <Control Id="Y" Type="PushButton" X="240" Y="72" Width="81" Height="21" Text="&amp;Yes" TabSkip="yes">
+                <Control Id="Y" Type="PushButton" X="240" Y="72" Width="81" Height="21" Text="!(loc.WixUIYes)" TabSkip="yes">
                     <Publish Event="EndDialog" Value="ErrorYes" />
                 </Control>
-                <Control Id="N" Type="PushButton" X="120" Y="72" Width="81" Height="21" Text="&amp;No" TabSkip="yes">
+                <Control Id="N" Type="PushButton" X="120" Y="72" Width="81" Height="21" Text="!(loc.WixUINo)" TabSkip="yes">
                     <Publish Event="EndDialog" Value="ErrorNo" />
                 </Control>
-                <Control Id="A" Type="PushButton" X="0" Y="72" Width="81" Height="21" Text="&amp;Exit Installation" TabSkip="yes">
+                <Control Id="A" Type="PushButton" X="0" Y="72" Width="81" Height="21" Text="!(loc.AbortButtonText)" TabSkip="yes">
                     <Publish Event="EndDialog" Value="ErrorAbort" />
                 </Control>
-                <Control Id="R" Type="PushButton" X="198" Y="72" Width="81" Height="21" Text="&amp;Try Again" TabSkip="yes">
+                <Control Id="R" Type="PushButton" X="198" Y="72" Width="81" Height="21" Text="!(loc.WixUIRetry)" TabSkip="yes">
                     <Publish Event="EndDialog" Value="ErrorRetry" />
                 </Control>
-                <Control Id="I" Type="PushButton" X="81" Y="72" Width="81" Height="21" Text="&amp;Continue" TabSkip="yes">
+                <Control Id="I" Type="PushButton" X="81" Y="72" Width="81" Height="21" Text="!(loc.WixUIIgnore)" TabSkip="yes">
                     <Publish Event="EndDialog" Value="ErrorIgnore" />
                 </Control>
-                <Control Id="O" Type="PushButton" X="159" Y="72" Width="81" Height="21" Text="OK" TabSkip="yes">
+                <Control Id="O" Type="PushButton" X="159" Y="72" Width="81" Height="21" Text="!(loc.WixUIOK)" TabSkip="yes">
                     <Publish Event="EndDialog" Value="ErrorOk" />
                 </Control>
-                <Control Id="C" Type="PushButton" X="42" Y="72" Width="81" Height="21" Text="Cancel" TabSkip="yes">
+                <Control Id="C" Type="PushButton" X="42" Y="72" Width="81" Height="21" Text="!(loc.WixUICancel)" TabSkip="yes">
                     <Publish Event="EndDialog" Value="ErrorCancel" />
                 </Control>
             </Dialog>
 
-            <Dialog Id="ResumeForm" X="50" Y="50" Width="373" Height="187" Title="[ProductName]">
-                <Control Id="NextButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="&amp;Next" TabSkip="no" Default="yes" ElevationShield="yes">
+            <Dialog Id="ResumeForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
+                <Control Id="NextButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="!(loc.WixUINext)" TabSkip="no" Default="yes" ElevationShield="yes">
                     <Publish Event="EndDialog" Value="Return">1</Publish>
                 </Control>
-                <Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="Cancel" TabSkip="no" Cancel="yes">
+                <Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Cancel="yes">
                     <Publish Event="SpawnDialog" Value="CancelDialog" />
                 </Control>
-                <Control Id="PreviousButton" Type="PushButton" X="228" Y="261" Width="66" Height="18" Text="&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+                <Control Id="PreviousButton" Type="PushButton" X="228" Y="261" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
                 <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="Line2" Type="Line" X="0" Y="252" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="180" Text="The installer will resume the installation of [ProductName] on your computer.&#xD;&#xA;&#xD;&#xA;Click &quot;Finish&quot; to continue." TabSkip="yes" />
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}Welcome to the [ProductName] Setup Wizard" TabSkip="yes" Transparent="yes" />
+                <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="180" Text="!(loc.ResumeBodyText)" TabSkip="yes" />
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.ResumeBannerText)" TabSkip="yes" Transparent="yes" />
             </Dialog>
 
-            <Dialog Id="CancelDialog" X="50" Y="50" Width="271" Height="78" Title="[ProductName]" NoMinimize="yes">
-                <Control Id="NoButton" Type="PushButton" X="198" Y="48" Width="65" Height="21" Text="&amp;No" TabSkip="no" Default="yes" Cancel="yes">
+            <Dialog Id="CancelDialog" X="50" Y="50" Width="271" Height="78" Title="!(loc.WindowTitle)" NoMinimize="yes">
+                <Control Id="NoButton" Type="PushButton" X="198" Y="48" Width="65" Height="21" Text="!(loc.WixUINo)" TabSkip="no" Default="yes" Cancel="yes">
                     <Publish Event="EndDialog" Value="Return" />
                 </Control>
-                <Control Id="YesButton" Type="PushButton" X="126" Y="48" Width="65" Height="21" Text="&amp;Yes" TabSkip="no">
+                <Control Id="YesButton" Type="PushButton" X="126" Y="48" Width="65" Height="21" Text="!(loc.WixUIYes)" TabSkip="no">
                     <Publish Event="EndDialog" Value="Exit" />
                 </Control>
-                <Control Id="BodyText" Type="Text" X="6" Y="9" Width="258" Height="24" Text="The installation is not yet complete. Are you sure you want to exit?" TabSkip="yes" />
+                <Control Id="BodyText" Type="Text" X="6" Y="9" Width="258" Height="24" Text="!(loc.CancelBodyText)" TabSkip="yes" />
             </Dialog>
         </UI>
 

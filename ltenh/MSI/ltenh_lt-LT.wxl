@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="lt-lt" Codepage="1257" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="ProductName">Lietuvių papildytasis klaviatūros išdėstymas</String>
+    <String Id="ProductManufacturer">Rimas Kudelis</String>
+    <String Id="PackageDescription">Lietuvių papildytojo klaviatūros išdėstymo įdiegimo vedlys</String>
+    <String Id="PackageKeywords">Custom, Keyboard, Installer, MSI, database, MSKLC</String>
+    <String Id="ConflictingFileMessage">Jūsų kompiuteryje aptiktas DLL failas tokiu pačiu vardu, kokį ketinama įdiegti ([KEYBOARD_ALREADY_PRESENT]).&#xD;&#xA;&#xD;&#xA;Įdiegimas nutraukiamas.</String>
+    <String Id="Windows9xMessage">šis klaviatūros išdėstymas negali būti diegiamas į „Windows 95“, „Windows 98“ ir „Windows ME“ sistemas.&#xD;&#xA;&#xD;&#xA;Įdiegimas nutraukiamas.</String>
+    <String Id="UnsupportedPlatformMessage">Šis įdiegimo paketas yra skirtas kito tipo procesoriams, nei jūsų naudojamas.&#xD;&#xA;&#xD;&#xA;Įdiegimas nutraukiamas.</String>
+
+    <!-- Common elements -->
+    <String Id="WixUIBack">&amp;Atgal</String>
+    <String Id="WixUINext">&amp;Pirmyn</String>
+    <String Id="WixUICancel">Atsisakyti</String>
+    <String Id="WixUIFinish">&amp;Baigti</String>
+    <String Id="WixUIRetry">&amp;Bandyti vėl</String>
+    <String Id="WixUIIgnore">&amp;Nepaisyti</String>
+    <String Id="WixUIYes">&amp;Taip</String>
+    <String Id="WixUINo">&amp;Ne</String>
+    <String Id="WixUIOK">Gerai</String>
+
+    <String Id="InstallButtonText">&amp;Diegti</String>
+    <String Id="CloseButtonText">&amp;Užverti</String>
+    <String Id="AbortButtonText">&amp;Nutraukti diegimą</String>
+    <String Id="WindowTitle">Lietuvių papildytojo klaviatūros išdėstymo įdiegimas</String>
+
+    <!-- Welcome dialog -->
+    <String Id="WelcomeBannerText">Sveiki! Tai – Lietuvių papildytojo klaviatūros išdėstymo įdiegimo vedlys</String>
+    <String Id="WelcomeBodyText">Ši programa įdiegs Lietuvių papildytąjį klaviatūros išdėstymą į jūsų kompiuterį.&#xD;&#xA;&#xD;&#xA;Jeigu norite tęsti, spustelėkite mygtuką „Diegti“.</String>
+
+    <!-- Finished dialog -->
+    <String Id="FinishedBannerText">Diegimas baigtas</String>
+    <String Id="FinishedBodyTextInstall">Lietuvių papildytasis klaviatūros išdėstymas įdiegtas.&#xD;&#xA;&#xD;&#xA;Šios programos darbą užbaigsite, spustelėdami mygtuką „Užverti“.</String>
+    <String Id="FinishedBodyTextRemove">Lietuvių papildytasis klaviatūros išdėstymas pašalintas.&#xD;&#xA;&#xD;&#xA;Šios programos darbą užbaigsite, spustelėdami mygtuką „Užverti“.</String>
+
+    <!-- Installation Interrupted dialog -->
+    <String Id="UserExitBannerText">Diegimas nutrauktas</String>
+    <String Id="UserExitBodyTextInstall">Diegimas nutrauktas neįdiegus Lietuvių papildytojo klaviatūros išdėstymo. Norėdami jį įdiegti, turėsite paleisti diegimo programą pakartotinai.&#xD;&#xA;&#xD;&#xA;Šios programos darbą užbaigsite, spustelėdami mygtuką „Užverti“.</String>
+    <String Id="UserExitBodyTextRemove">Diegimas nutrauktas nepašalinus Lietuvių papildytojo klaviatūros išdėstymo. Norėdami jį pašalinti, turėsite paleisti programą pakartotinai.&#xD;&#xA;&#xD;&#xA;Šios programos darbą užbaigsite, spustelėdami mygtuką „Užverti“.</String>
+
+    <!-- Maintenance dialog -->
+    <String Id="MaintenanceBannerText">Sveiki! Tai – Lietuvių papildytojo klaviatūros išdėstymo įdiegimo vedlys</String>
+    <String Id="MaintenanceBodyText">Pasirinkite, ar norite pataisyti, ar pašalinti Lietuvių papildytąjį klaviatūros išdėstymą.</String>
+    <String Id="MaintenanceRemoveText">&amp;Pašalinti išdėstymą.</String>
+    <String Id="MaintenanceRepairText">&amp;Pataisyti išdėstymą.</String>
+
+    <!-- Fatal Error dialog -->
+    <String Id="FatalErrorBannerText">Diegimas nutrauktas</String>
+    <String Id="FatalErrorBodyTextInstall">Diegimas nutrauktas neįdiegus Lietuvių papildytojo klaviatūros išdėstymo. Norėdami jį įdiegti, turėsite paleisti diegimo programą pakartotinai.&#xD;&#xA;&#xD;&#xA;Šios programos darbą užbaigsite, spustelėdami mygtuką „Užverti“.</String>
+    <String Id="FatalErrorBodyTextRemove">Diegimas nutrauktas nepašalinus Lietuvių papildytojo klaviatūros išdėstymo. Norėdami jį pašalinti, turėsite paleisti programą pakartotinai.&#xD;&#xA;&#xD;&#xA;Šios programos darbą užbaigsite, spustelėdami mygtuką „Užverti“.</String>
+
+    <!-- Files in Use dialog -->
+    <String Id="FilesInUseWindowTitle">[ProductName]: yra naudojamų failų</String>
+    <String Id="FilesInUseBodyTextInstall">Žemiau nurodytos programos naudoja failus, kuriuos ši įdiegimo programa turi atnaujinti. Galite užverti šias programas ir spustelėti mygtuką „Bandyti vėl“, arba tiesiog spustelėti mygtuką „Nepaisyti“ – tokiu atveju įdiegimas bus tęsiamas toliau, o šiuo metu naudojami failai bus pakeisti, kai pakartotinai paleisite kompiuterį.</String>
+    <String Id="FilesInUseBodyTextRemove">Žemiau nurodytos programos naudoja failus, kuriuos ši įdiegimo programa turi pašalinti. Galite užverti šias programas ir spustelėti mygtuką „Bandyti vėl“, arba tiesiog spustelėti mygtuką „Nepaisyti“ – tokiu atveju šalinimas bus tęsiamas toliau, o šiuo metu naudojami failai bus pašalinti, kai pakartotinai paleisite kompiuterį.</String>
+
+    <!-- Resume Installation dialog -->
+    <String Id="ResumeBannerText">Sveiki! Tai – Lietuvių papildytojo klaviatūros išdėstymo įdiegimo vedlys</String>
+    <String Id="ResumeBodyText">Programa pratęs Lietuvių papildytojo klaviatūros išdėstymo įdiegimą į jūsų kompiuterį.&#xD;&#xA;&#xD;&#xA;Jeigu norite tęsti, spustelėkite mygtuką „Toliau“.</String>
+
+    <!-- Cancel dialog -->
+    <String Id="CancelBodyText">Įdiegimas dar nebaigtas. Ar norite jį nutraukti?</String>
+</WixLocalization>

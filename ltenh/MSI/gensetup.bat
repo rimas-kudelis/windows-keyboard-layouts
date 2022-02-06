@@ -19,9 +19,9 @@ candle.exe .\ltenh.wxs -arch x86 -out ltenh_i386.wixobj || GOTO ERROR
 candle.exe .\KbdMsi.wxs -arch ia64 -out KbdMsi_ia64.wixobj || GOTO ERROR
 candle.exe .\ltenh.wxs -arch ia64 -out ltenh_ia64.wixobj || GOTO ERROR
 
-light.exe .\ltenh_amd64.wixobj KbdMsi_amd64.wixobj -cultures:en-us,lt-lt -out ltenh_amd64.msi
-light.exe .\ltenh_i386.wixobj KbdMsi_i386.wixobj -cultures:en-us;lt-lt -out ltenh_i386.msi
-light.exe .\ltenh_ia64.wixobj KbdMsi_ia64.wixobj -cultures:en-us;lt-lt -out ltenh_ia64.msi
+light.exe .\ltenh_amd64.wixobj KbdMsi_amd64.wixobj -ext WixUIExtension -cultures:lt-LT -loc ltenh_lt-LT.wxl -out ltenh_amd64.msi
+light.exe .\ltenh_i386.wixobj KbdMsi_i386.wixobj -ext WixUIExtension -cultures:lt-LT -loc ltenh_lt-LT.wxl -out ltenh_i386.msi
+light.exe .\ltenh_ia64.wixobj KbdMsi_ia64.wixobj -ext WixUIExtension -cultures:lt-LT -loc ltenh_lt-LT.wxl -out ltenh_ia64.msi
 
 del *.wixobj *.wixpdb
 @goto END
