@@ -36,7 +36,7 @@ Windows 10 and above can be installed on ARM64 computers. It should be possible 
 I am aware that Microsoft has abandoned Microsoft Keyboard Layout Creator. There have been no new releases since year 2007. However, last time I checked, it still worked for me, even under Windows 10, provided that the required version of .NET was installed. Since I'm not currently aware of any of its replacements (by that I mean something that would be free, have a GUI and generate a native keyboard layout which wouldn't require any specific runtimes), the files currently remain like this. In the longer term, it might be a good idea to migrate to actual C source files (or another tool, should there appear one). On the other hand, there isn't much more that I need to add to these particular layouts, so I'm not really in a hurry here.
 
 ### Windows 9x support
-Nowadays completely irrelevant Windows 95/98/Me used a different file format for keyboard layouts. I had a version of my layout built for these operating systems as well. You can find it under the `win9x` tag if interested.
+Nowadays completely irrelevant Windows 95/98/Me used a different file format for keyboard layouts. I had a version of my layout built for these operating systems as well. You can find it under `v1.5` tag if interested.
 
 ## Acknowledgements
 Several binary files are commited here which I downloaded from elsewhere. These are:
