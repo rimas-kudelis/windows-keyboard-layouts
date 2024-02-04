@@ -1,0 +1,62 @@
+﻿<WixLocalization Culture="en-us" xmlns="http://wixtoolset.org/schemas/v4/wxl">
+    <String Id="LCIDValue" Value="0427" /><!-- Hex LCID of the layout language -->
+    <String Id="ProductName" Value="Lithuanian (Enhanced)" />
+    <String Id="ProductManufacturer" Value="Rimas Kudelis" />
+    <String Id="PackageDescription" Value="Lithuanian (Enhanced) keyboard layout installer" />
+    <String Id="PackageKeywords" Value="Custom, Keyboard, Installer, MSI, database, MSKLC" />
+    <String Id="ConflictingFileMessage" Value="A conflicting file ([KEYBOARD_ALREADY_PRESENT]) already exists on this computer.&#xD;&#xA;&#xD;&#xA;Installation cannot continue." />
+    <String Id="UnsupportedPlatformMessage" Value="This installation package is for [TargetArchitecture] computers and is not compatible with your Windows installation, which uses [CpuArchitecture] architecture.&#xD;&#xA;&#xD;&#xA;Installation cannot continue." />
+
+    <!-- Common elements -->
+    <String Id="WixUIBack" Value="&amp;Back" />
+    <String Id="WixUINext" Value="&amp;Next" />
+    <String Id="WixUICancel" Value="Cancel" />
+    <String Id="WixUIFinish" Value="&amp;Finish" />
+    <String Id="WixUIRetry" Value="&amp;Try Again" />
+    <String Id="WixUIIgnore" Value="&amp;Continue" />
+    <String Id="WixUIYes" Value="&amp;Yes" />
+    <String Id="WixUINo" Value="&amp;No" />
+    <String Id="WixUIOK" Value="OK" />
+
+    <String Id="InstallButtonText" Value="&amp;Install" />
+    <String Id="CloseButtonText" Value="&amp;Close" />
+    <String Id="AbortButtonText" Value="&amp;Exit Installation" />
+    <String Id="WindowTitle" Value="[ProductName] Setup" />
+
+    <!-- Welcome dialog -->
+    <String Id="WelcomeBannerText" Value="Welcome to the [ProductName] Setup Wizard" />
+    <String Id="WelcomeBodyText" Value="This application will install [ProductName] on your computer.&#xD;&#xA;&#xD;&#xA;Click &quot;Install&quot; to continue." />
+
+    <!-- Finished dialog -->
+    <String Id="FinishedBannerText" Value="Installation Complete" />
+    <String Id="FinishedBodyTextInstall" Value="[ProductName] has been successfully installed.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." />
+    <String Id="FinishedBodyTextRemove" Value="[ProductName] has been successfully removed.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." />
+
+    <!-- Installation Interrupted dialog -->
+    <String Id="UserExitBannerText" Value="Installation Interrupted" />
+    <String Id="UserExitBodyTextInstall" Value="The installer was interrupted before [ProductName] could be installed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." />
+    <String Id="UserExitBodyTextRemove" Value="The installer was interrupted before [ProductName] could be removed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." />
+
+    <!-- Maintenance dialog -->
+    <String Id="MaintenanceBannerText" Value="Welcome to the [ProductName] Setup Wizard" />
+    <String Id="MaintenanceBodyText" Value="Select whether you want to repair or remove [ProductName]." />
+    <String Id="MaintenanceRemoveText" Value="&amp;Remove the keyboard layout." />
+    <String Id="MaintenanceRepairText" Value="&amp;Repair the keyboard layout." />
+
+    <!-- Fatal Error dialog -->
+    <String Id="FatalErrorBannerText" Value="Installation Incomplete" />
+    <String Id="FatalErrorBodyTextInstall" Value="The installer was interrupted before [ProductName] could be installed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." />
+    <String Id="FatalErrorBodyTextRemove" Value="The installer was interrupted before [ProductName] could be removed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." />
+
+    <!-- Files in Use dialog -->
+    <String Id="FilesInUseWindowTitle" Value="[ProductName]: Files in Use" />
+    <String Id="FilesInUseBodyTextInstall" Value="The following applications are using files which the installer must update. You can either close the applications and click &quot;Try Again&quot;, or click &quot;Continue&quot; so that the installer continues the installation, and replaces these files when your system restarts." />
+    <String Id="FilesInUseBodyTextRemove" Value="The following applications are using files which the installer must remove. You can either close the applications and click &quot;Try Again&quot;, or click &quot;Continue&quot; so that the installer continues the installation, and removes these files when your system restarts." />
+
+    <!-- Resume Installation dialog -->
+    <String Id="ResumeBannerText" Value="Welcome to the [ProductName] Setup Wizard" />
+    <String Id="ResumeBodyText" Value="The installer will resume the installation of [ProductName] on your computer.&#xD;&#xA;&#xD;&#xA;Click &quot;Next&quot; to continue." />
+
+    <!-- Cancel dialog -->
+    <String Id="CancelBodyText" Value="The installation is not yet complete. Are you sure you want to exit?" />
+</WixLocalization>

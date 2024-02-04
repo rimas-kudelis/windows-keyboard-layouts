@@ -1,0 +1,5 @@
+.vs/
+CMakeFiles/
+CMakeCache.txt
+CMakeLists.txt
+obj/

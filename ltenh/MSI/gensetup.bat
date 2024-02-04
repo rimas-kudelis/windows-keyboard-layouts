@@ -10,11 +10,11 @@ if /i "%CONTINUE%" NEQ "Y" GOTO END
 @echo on
 set "PATH=%PATH%;C:\Users\Rimas\Downloads\wix314-binaries\"
 
-candle.exe .\KbdMsi.wxs -arch x64 -out KbdMsi_amd64.wixobj || GOTO ERROR
-candle.exe .\ltenh.wxs -arch x64 -out ltenh_amd64.wixobj || GOTO ERROR
+candle.exe .\KbdMsi.wxs -arch x64 -out KbdMsi_x64.wixobj || GOTO ERROR
+candle.exe .\ltenh.wxs -arch x64 -out ltenh_x64.wixobj || GOTO ERROR
 
-candle.exe .\KbdMsi.wxs -arch x86 -out KbdMsi_i386.wixobj || GOTO ERROR
-candle.exe .\ltenh.wxs -arch x86 -out ltenh_i386.wixobj || GOTO ERROR
+candle.exe .\KbdMsi.wxs -arch x86 -out KbdMsi_x86.wixobj || GOTO ERROR
+candle.exe .\ltenh.wxs -arch x86 -out ltenh_x86.wixobj || GOTO ERROR
 
 candle.exe .\KbdMsi.wxs -arch arm64 -out KbdMsi_arm64.wixobj || GOTO ERROR
 candle.exe .\ltenh.wxs -arch arm64 -out ltenh_arm64.wixobj || GOTO ERROR
@@ -22,8 +22,8 @@ candle.exe .\ltenh.wxs -arch arm64 -out ltenh_arm64.wixobj || GOTO ERROR
 candle.exe .\KbdMsi.wxs -arch ia64 -out KbdMsi_ia64.wixobj || GOTO ERROR
 candle.exe .\ltenh.wxs -arch ia64 -out ltenh_ia64.wixobj || GOTO ERROR
 
-light.exe .\ltenh_amd64.wixobj KbdMsi_amd64.wixobj -ext WixUIExtension -cultures:lt-LT -loc ltenh_lt-LT.wxl -out ltenh_amd64.msi
-light.exe .\ltenh_i386.wixobj KbdMsi_i386.wixobj -ext WixUIExtension -cultures:lt-LT -loc ltenh_lt-LT.wxl -out ltenh_i386.msi
+light.exe .\ltenh_x64.wixobj KbdMsi_x64.wixobj -ext WixUIExtension -cultures:lt-LT -loc ltenh_lt-LT.wxl -out ltenh_x64.msi
+light.exe .\ltenh_x86.wixobj KbdMsi_x86.wixobj -ext WixUIExtension -cultures:lt-LT -loc ltenh_lt-LT.wxl -out ltenh_x86.msi
 light.exe .\ltenh_arm64.wixobj KbdMsi_arm64.wixobj -ext WixUIExtension -cultures:lt-LT -loc ltenh_lt-LT.wxl -out ltenh_arm64.msi
 light.exe .\ltenh_ia64.wixobj KbdMsi_ia64.wixobj -ext WixUIExtension -cultures:lt-LT -loc ltenh_lt-LT.wxl -out ltenh_ia64.msi
 

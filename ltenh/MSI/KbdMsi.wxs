@@ -1,10 +1,10 @@
 <?xml version='1.0'?>
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
    <Fragment>
+      <Binary Id='KbdMsi' SourceFile='C:\Program Files (x86)\Microsoft Keyboard Layout Creator 1.4\bin\i386\KbdMsi.dll'/>
       <CustomAction Id="RegisterKeyboard" BinaryKey="KbdMsi" DllEntry="CA01" Execute="deferred" Impersonate="no" />
       <CustomAction Id="UnregisterKeyboard" BinaryKey="KbdMsi" DllEntry="CA02" Execute="deferred" Impersonate="no" />
       <CustomAction Id="AddKeyboardToLangBar" BinaryKey="KbdMsi" DllEntry="CA03" Execute="deferred" />
       <CustomAction Id="RemoveKeyboardFromLangBar" BinaryKey="KbdMsi" DllEntry="CA04" Execute="deferred" />
-      <Binary Id='KbdMsi' SourceFile='C:\Program Files (x86)\Microsoft Keyboard Layout Creator 1.4\bin\i386\KbdMsi.dll'/>
    </Fragment>
 </Wix>

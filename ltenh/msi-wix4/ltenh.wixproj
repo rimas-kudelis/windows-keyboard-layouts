@@ -1,0 +1,5 @@
+<Project Sdk="WixToolset.Sdk/4.0.0-rc.3">
+	<PropertyGroup>
+		<Cultures>en-US;lt-LT</Cultures>
+	</PropertyGroup>
+</Project>

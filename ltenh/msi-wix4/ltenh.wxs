@@ -1,125 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="{05176305-42C9-443F-927C-41E4F9470249}" Codepage="65001" Language="!(loc.ProductLanguageCode)" Manufacturer="!(loc.ProductManufacturer)" Name="!(loc.ProductName)" UpgradeCode="{8E0A18CA-D0EF-4F46-9D71-1377301A70AC}" Version="1.0.3.40">
-        <Package Comments="!(loc.PackageDescription)" Description="!(loc.PackageDescription)" Keywords="!(loc.PackageKeywords)" Languages="!(loc.ProductLanguageCode)" Manufacturer="!(loc.ProductManufacturer)" Compressed="yes" SummaryCodepage="!(loc.ProductSummaryCodepage)" />
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+    <Package Scope="perMachine" Manufacturer="!(loc.ProductManufacturer)" Name="!(loc.ProductName)" UpgradeCode="{8E0A18CA-D0EF-4F46-9D71-1377301A70AC}" Version="1.0.3.40">
+		<SummaryInformation Description="!(loc.PackageDescription)" Keywords="!(loc.PackageKeywords)" Manufacturer="!(loc.ProductManufacturer)" />
+		
+		<Property Id="MaintenanceForm_Action" Value="Remove" />
+		<Property Id="ErrorDialog" Value="ErrorDialog" />
+		<Property Id="LCIDValue" Value="!(loc.LCIDValue)" />
+		<Property Id="DefaultUIFont" Value="DefaultUIFont" />
+		<Property Id="ARPCONTACT" Value="!(loc.ProductManufacturer)" />
+		<Property Id="LayoutFile" Value="ltenh.dll" />
 
-        <Condition Message="!(loc.Windows9xMessage)">NOT Version9X</Condition>
+		<Property Id="KEYBOARD_ALREADY_PRESENT">
+			<DirectorySearch Id="SystemKeyboardFile" Path="[SystemFolder]" Depth="0">
+				<FileSearch Id="SystemKeyboardFile" Name="ltenh.dll" />
+			</DirectorySearch>
 
-        <?if $(sys.BUILDARCH) = x86 ?>
-            <Condition Message="!(loc.UnsupportedPlatformMessage)">Not Msix64</Condition>
-            <Condition Message="!(loc.UnsupportedPlatformMessage)">Not Intel64</Condition>
-            <Condition Message="!(loc.UnsupportedPlatformMessage)">Not Arm64</Condition>
-        <?endif ?>
+			<?if $(sys.BUILDARCH) != x86 ?>
+			    <DirectorySearch Id="System64KeyboardFile" Path="[System64Folder]" Depth="0">
+				    <FileSearch Id="System64KeyboardFile" Name="ltenh.dll" />
+			    </DirectorySearch>
+			<?endif?>
 
-        <Condition Message="!(loc.ConflictingFileMessage)">KEYBOARD_ALREADY_PRESENT="" Or Installed</Condition>
+			<?if $(sys.BUILDARCH) = arm64 ?>
+			    <DirectorySearch Id="SysArm32KeyboardFile" Path="[WindowsFolder]\SysArm32" Depth="0">
+				    <FileSearch Id="SysArm32KeyboardFile" Name="ltenh.dll" />
+			    </DirectorySearch>
+			<?endif?>
+		</Property>
 
-        <CustomAction Id="DIRCA_TARGETDIR" Property="TARGETDIR" Value="[SystemFolder]" Execute="firstSequence" />
+		<Property Id="SYSARM32_DIRECTORY_FOUND">
+			<DirectorySearch Id="SysArm32" Path="[WindowsFolder]\SysArm32" Depth="0" />
+		</Property>
+
+		<Launch Condition="NOT Version9X" Message="!(loc.UnsupportedPlatformMessage)" />
+		<?if $(sys.BUILDARCH) = x86 ?>
+		    <Property Id="TargetArchitecture" Value="x86" />
+		    <Launch Condition="NOT VersionNT64" Message="!(loc.UnsupportedPlatformMessage)" />
+        <?endif?>
+		<?if $(sys.BUILDARCH) = x64 ?>
+		    <Property Id="TargetArchitecture" Value="AMD64" />
+		<?endif?>
+		<?if $(sys.BUILDARCH) = arm64 ?>
+		    <Property Id="TargetArchitecture" Value="ARM64" />
+		<?endif?>
+		<Launch Condition="CpuArchitecture=TargetArchitecture" Message="!(loc.UnsupportedPlatformMessage)" />
+		<Launch Condition="KEYBOARD_ALREADY_PRESENT=&quot;&quot; Or Installed" Message="!(loc.ConflictingFileMessage)" />
+
+		<CustomAction Id="ResolveCpuArchitecture" Property="CpuArchitecture" Value="[%PROCESSOR_ARCHITECTURE]" />
+		<CustomAction Id="DIRCA_TARGETDIR" Property="TARGETDIR" Value="[SystemFolder]" Execute="firstSequence" />
         <CustomAction Id="SetFilePath" Property="RegisterKeyboard" Value="[#FILE_LAYOUT_X86]|[LCIDValue]" />
         <CustomAction Id="SetFilePathX64" Property="RegisterKeyboard" Value="[#FILE_LAYOUT_X64]|[LCIDValue]" />
-        <CustomAction Id="SetFilePathArm32" Property="RegisterKeyboard" Value="[#FILE_LAYOUT_ARM32]|[LCIDValue]" />
-        <CustomAction Id="SetFilePathArm64" Property="RegisterKeyboard" Value="[#FILE_LAYOUT_ARM64]|[LCIDValue]" />
-        <CustomAction Id="SetFilePathIa64" Property="RegisterKeyboard" Value="[#FILE_LAYOUT_IA64]|[LCIDValue]" />
-
-        <Directory Id="TARGETDIR" Name="SourceDir">
-            <Component Id="RegistryKeys" Guid="{4A4EAE0D-5F66-4E3D-AAC4-27F121FDBC53}" KeyPath="yes" />
-
-            <Directory Id="SystemFolder">
-                <?if $(sys.BUILDARCH) = x86 ?>
-                    <Directory Id="SYSTEMFOLDERX86" SourceName="x86">
-                        <Component Id="LayoutX86" Guid="{57344B98-84AA-466E-BBB2-0DCD1A503FAE}" Win64="no">
-                            <Condition>NOT VersionNT64</Condition>
-                            <File Id="FILE_LAYOUT_X86" Name="ltenh.dll" KeyPath="yes" Source="..\x86\ltenh.dll" />
-                        </Component>
-                    </Directory>
-                <?endif ?>
-                <?if $(sys.BUILDARCH) != x86 ?>
-                    <Directory Id="SYSTEMFOLDERWOW64" SourceName="wow64">
-                        <Component Id="LayoutWOW64" Guid="{3E1F22E6-E742-4C1E-86A5-19DD3E892D59}" Win64="no">
-                            <Condition>VersionNT64</Condition>
-                            <File Id="FILE_LAYOUT_WOW64" Name="ltenh.dll" KeyPath="yes" Source="..\wow64\ltenh.dll" />
-                        </Component>
-                    </Directory>
-                <?endif ?>
-            </Directory>
-
-            <?if $(sys.BUILDARCH) != x86 ?>
-                <Directory Id="System64Folder">
-                    <?if $(sys.BUILDARCH) = x64 ?>
-                        <Directory Id="SYSTEMFOLDERX64" SourceName="x64">
-                            <Component Id="LayoutX64" Guid="{1EE08930-5343-40DD-B2D7-FE7360501ECE}" Win64="yes">
-                                <Condition>Msix64</Condition>
-                                <File Id="FILE_LAYOUT_X64" Name="ltenh.dll" KeyPath="yes" Source="..\x64\ltenh.dll" />
-                            </Component>
-                        </Directory>
-                    <?endif ?>
-                    <?if $(sys.BUILDARCH) = arm64 ?>
-                        <Directory Id="SYSTEMFOLDERARM64" SourceName="arm64">
-                            <Component Id="LayoutARM64" Guid="{A9363BC5-6FF4-467C-B360-DAC89F2D544C}" Win64="yes">
-                                <Condition>Arm64</Condition>
-                                <File Id="FILE_LAYOUT_ARM64" Name="ltenh.dll" KeyPath="yes" Source="..\arm64\ltenh.dll" />
-                            </Component>
-                        </Directory>
-                    <?endif ?>
-                    <?if $(sys.BUILDARCH) = ia64 ?>
-                        <Directory Id="SYSTEMFOLDERIA64" SourceName="ia64">
-                            <Component Id="LayoutIA64" Guid="{4CC2C155-7578-484B-A15A-AA2F33A20D25}" Win64="yes">
-                                <Condition>Intel64</Condition>
-                                <File Id="FILE_LAYOUT_IA64" Name="ltenh.dll" KeyPath="yes" Source="..\ia64\ltenh.dll" />
-                            </Component>
-                        </Directory>
-                    <?endif ?>
-                </Directory>
-            <?endif ?>
-
-            <?if $(sys.BUILDARCH) = arm64 ?>
-                <Directory Id="SysArm32Folder">
-                    <Directory Id="SYSTEMFOLDERARM32" SourceName="arm">
-                        <Component Id="LayoutARM32" Guid="" Win64="yes">
-                            <Condition>Arm64</Condition>
-                            <File Id="FILE_LAYOUT_ARM32" Name="ltenh.dll" KeyPath="yes" Source="..\arm\ltenh.dll" />
-                        </Component>
-                    </Directory>
-                </Directory>
-            <?endif ?>
-        </Directory>
+		<CustomAction Id="SetFilePathArm64" Property="RegisterKeyboard" Value="[#FILE_LAYOUT_ARM64]|[LCIDValue]" />
 
         <Feature Id="DefaultFeature" Level="1">
             <ComponentRef Id="RegistryKeys" />
         </Feature>
-        <?if $(sys.BUILDARCH) = x86 ?>
+
+		<?if $(sys.BUILDARCH) = x86 ?>
             <Feature Id="DefaultFeatureX86" ConfigurableDirectory="SYSTEMFOLDERX86" Level="0">
                 <ComponentRef Id="LayoutX86" />
-                <Condition Level="1">NOT VersionNT64</Condition>
+                <Level Value="1" Condition="NOT VersionNT64" />
             </Feature>
-        <?endif ?>
-        <?if $(sys.BUILDARCH) != x86 ?>
+        <?endif?>
+
+		<?if $(sys.BUILDARCH) != x86 ?>
             <Feature Id="DefaultFeatureWow64" ConfigurableDirectory="SYSTEMFOLDERWOW64" Level="0">
                 <ComponentRef Id="LayoutWOW64" />
-                <Condition Level="1">VersionNT64</Condition>
+                <Level Value="1" Condition="VersionNT64" />
             </Feature>
-        <?endif ?>
-        <?if $(sys.BUILDARCH) = x64 ?>
+        <?endif?>
+
+		<?if $(sys.BUILDARCH) = x64 ?>
             <Feature Id="DefaultFeatureX64" ConfigurableDirectory="SYSTEMFOLDERX64" Level="0">
                 <ComponentRef Id="LayoutX64" />
-                <Condition Level="1">Msix64</Condition>
+                <Level Value="1" Condition="Msix64" />
             </Feature>
-        <?endif ?>
-        <?if $(sys.BUILDARCH) = arm64 ?>
+        <?endif?>
+
+		<?if $(sys.BUILDARCH) = arm64 ?>
             <Feature Id="DefaultFeatureArm64" ConfigurableDirectory="SYSTEMFOLDERARM64" Level="0">
                 <ComponentRef Id="LayoutARM64" />
-                <Condition Level="1">Arm64</Condition>
+                <Level Value="1" Condition="VersionNT64" />
             </Feature>
-            <Feature Id="DefaultFeatureArm32" ConfigurableDirectory="SYSTEMFOLDERARM32" Level="0">
+
+		    <Feature Id="DefaultFeatureArm32" ConfigurableDirectory="SYSTEMFOLDERARM32" Level="0">
                 <ComponentRef Id="LayoutARM32" />
-                <Condition Level="1">Arm64</Condition>
+                <Level Value="1" Condition="VersionNT64" />
             </Feature>
-        <?endif ?>
-        <?if $(sys.BUILDARCH) = ia64 ?>
-            <Feature Id="DefaultFeatureIa64" ConfigurableDirectory="SYSTEMFOLDERIA64" Level="0">
-                <ComponentRef Id="LayoutIA64" />
-                <Condition Level="1">Intel64</Condition>
-            </Feature>
-        <?endif ?>
+        <?endif?>
 
 <!--
         <?if $(sys.BUILDARCH) = x86 ?>
@@ -131,37 +98,12 @@
         <?if $(sys.BUILDARCH) = arm64 ?>
         <Media Id="1" EmbedCab="no" Cabinet="ltenh_arm64.cab" />
         <?endif ?>
-        <?if $(sys.BUILDARCH) = ia64 ?>
-        <Media Id="1" EmbedCab="no" Cabinet="ltenh_ia64.cab" />
-        <?endif ?>
 -->
         <MediaTemplate EmbedCab="yes" />
 
-        <Property Id="MaintenanceForm_Action" Value="Remove" />
-        <Property Id="ErrorDialog" Value="ErrorDialog" />
-        <Property Id="LCIDValue" Value="!(loc.LCIDValue)" />
-        <Property Id="DefaultUIFont" Value="KbdDefaultUIFont" />
-        <Property Id="ARPCONTACT" Value="!(loc.ProductManufacturer)" />
-        <Property Id="LayoutFile" Value="ltenh.dll" />
-        <Property Id="KEYBOARD_ALREADY_PRESENT">
-            <DirectorySearch Id="SystemKeyboardFile" Path="[SystemFolder]" Depth="0">
-                <FileSearch Id="SystemKeyboardFile" ShortName="ltenh.dll" />
-            </DirectorySearch>
-            <?if $(sys.BUILDARCH) != x86 ?>
-                <DirectorySearch Id="System64KeyboardFile" Path="[System64Folder]" Depth="0">
-                    <FileSearch Id="System64KeyboardFile" ShortName="ltenh.dll" />
-                </DirectorySearch>
-            <?endif ?>
-            <?if $(sys.BUILDARCH) = arm64 ?>
-                <DirectorySearch Id="SysArm32KeyboardFile" Path="[WindowsFolder]\SysArm32" Depth="0">
-                    <FileSearch Id="SysArm32KeyboardFile" ShortName="ltenh.dll" />
-                </DirectorySearch>
-            <?endif ?>
-        </Property>
-
         <UI>
-            <TextStyle Id="KbdDefaultUIFont" FaceName="Segoe UI" Size="9" Red="0" Green="0" Blue="0" />
-            <TextStyle Id="HeadingFont" FaceName="Segoe UI" Size="12" Red="0" Green="0" Blue="0" Bold="yes" />
+            <TextStyle Id="DefaultUIFont" FaceName="Segoe UI" Size="8" />
+            <TextStyle Id="HeadingFont" FaceName="Segoe UI" Size="12" Bold="no" />
 
             <RadioButtonGroup Property="MaintenanceForm_Action">
                 <RadioButton Height="17" Text="!(loc.MaintenanceRemoveText)" Value="Remove" Width="348" X="0" Y="0" />
@@ -169,12 +111,12 @@
             </RadioButtonGroup>
 
             <Dialog Id="WelcomeForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.WelcomeBannerText)" TabSkip="yes" Transparent="yes" />
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="354" Height="42" Text="{\HeadingFont}!(loc.WelcomeBannerText)" TabSkip="yes" Transparent="yes" />
                 <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.WelcomeBodyText)" TabSkip="yes" />
                 <Control Id="Line2" Type="Line" X="0" Y="152" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="InstallButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="!(loc.InstallButtonText)" TabSkip="no" Default="yes" ElevationShield="yes">
-                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                    <Publish Event="EndDialog" Value="Return" />
                 </Control>
                 <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Cancel="yes">
                     <Publish Event="SpawnDialog" Value="CancelDialog" />
@@ -183,55 +125,43 @@
             </Dialog>
 
             <Dialog Id="FinishedForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.FinishedBannerText)" TabSkip="yes" Transparent="yes" />
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="354" Height="42" Text="{\HeadingFont}!(loc.FinishedBannerText)" TabSkip="yes" Transparent="yes" />
                 <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="BodyTextInstall" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FinishedBodyTextInstall)" TabSkip="yes">
-                    <Condition Action="show">REMOVE=""</Condition>
-                    <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
-                </Control>
-                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FinishedBodyTextRemove)" TabSkip="yes">
-                    <Condition Action="show">REMOVE&lt;&gt;""</Condition>
-                    <Condition Action="hide">REMOVE=""</Condition>
-                </Control>
+                <Control Id="BodyTextInstall" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FinishedBodyTextInstall)" TabSkip="yes" ShowCondition="REMOVE=&quot;&quot;" HideCondition="REMOVE&lt;&gt;&quot;&quot;" />
+                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FinishedBodyTextRemove)" TabSkip="yes" ShowCondition="REMOVE&lt;&gt;&quot;&quot;" HideCondition="REMOVE=&quot;&quot;" />
                 <Control Id="Line2" Type="Line" X="0" Y="152" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="!(loc.CloseButtonText)" TabSkip="no" Default="yes" Cancel="yes">
-                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                    <Publish Event="EndDialog" Value="Return" />
                 </Control>
                 <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Disabled="yes" />
                 <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
             </Dialog>
 
             <Dialog Id="UserExitForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.UserExitBannerText)" TabSkip="yes" Transparent="yes" />
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="354" Height="42" Text="{\HeadingFont}!(loc.UserExitBannerText)" TabSkip="yes" Transparent="yes" />
                 <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="BodyTextInstall" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.UserExitBodyTextInstall)" TabSkip="yes">
-                    <Condition Action="show">REMOVE=""</Condition>
-                    <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
-                </Control>
-                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.UserExitBodyTextRemove)" TabSkip="yes">
-                    <Condition Action="show">REMOVE&lt;&gt;""</Condition>
-                    <Condition Action="hide">REMOVE=""</Condition>
-                </Control>
+                <Control Id="BodyTextInstall" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.UserExitBodyTextInstall)" TabSkip="yes" ShowCondition="REMOVE=&quot;&quot;" HideCondition="REMOVE&lt;&gt;&quot;&quot;" />
+                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.UserExitBodyTextRemove)" TabSkip="yes" ShowCondition="REMOVE&lt;&gt;&quot;&quot;" HideCondition="REMOVE=&quot;&quot;" />
                 <Control Id="Line2" Type="Line" X="0" Y="152" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="!(loc.CloseButtonText)" TabSkip="no" Default="yes" Cancel="yes">
-                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                    <Publish Event="EndDialog" Value="Return" />
                 </Control>
                 <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Disabled="yes" />
                 <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
             </Dialog>
 
             <Dialog Id="MaintenanceForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="364" Height="33" Text="{\HeadingFont}!(loc.MaintenanceBannerText)" TabSkip="yes" Transparent="yes" />
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="354" Height="42" Text="{\HeadingFont}!(loc.MaintenanceBannerText)" TabSkip="yes" Transparent="yes" />
                 <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="22" Text="!(loc.MaintenanceBodyText)" TabSkip="yes" />
                 <Control Id="RepairRadioGroup" Type="RadioButtonGroup" X="18" Y="88" Width="348" Height="48" Property="MaintenanceForm_Action" Text="MsiRadioButtonGroup" TabSkip="no" />
                 <Control Id="Line2" Type="Line" X="0" Y="152" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="NextButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="!(loc.WixUINext)" TabSkip="no" Default="yes" ElevationShield="yes">
-                    <Publish Property="REINSTALL" Value="ALL">MaintenanceForm_Action="Repair"</Publish>
-                    <Publish Event="Reinstall" Value="ALL">MaintenanceForm_Action="Repair"</Publish>
-                    <Publish Property="REMOVE" Value="ALL">MaintenanceForm_Action="Remove"</Publish>
-                    <Publish Event="Remove" Value="ALL">MaintenanceForm_Action="Remove"</Publish>
-                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                    <Publish Property="REINSTALL" Value="ALL" Condition="MaintenanceForm_Action=&quot;Repair&quot;" />
+                    <Publish Event="Reinstall" Value="ALL" Condition="MaintenanceForm_Action=&quot;Repair&quot;" />
+                    <Publish Property="REMOVE" Value="ALL" Condition="MaintenanceForm_Action=&quot;Remove&quot;" />
+                    <Publish Event="Remove" Value="ALL" Condition="MaintenanceForm_Action=&quot;Remove&quot;" />
+                    <Publish Event="EndDialog" Value="Return" />
                 </Control>
                 <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Cancel="yes">
                     <Publish Event="SpawnDialog" Value="CancelDialog" />
@@ -240,12 +170,12 @@
             </Dialog>
 
             <Dialog Id="ResumeForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.ResumeBannerText)" TabSkip="yes" Transparent="yes" />
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="354" Height="42" Text="{\HeadingFont}!(loc.ResumeBannerText)" TabSkip="yes" Transparent="yes" />
                 <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="180" Text="!(loc.ResumeBodyText)" TabSkip="yes" />
                 <Control Id="Line2" Type="Line" X="0" Y="152" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="NextButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="!(loc.WixUINext)" TabSkip="no" Default="yes" ElevationShield="yes">
-                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                    <Publish Event="EndDialog" Value="Return" />
                 </Control>
                 <Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Cancel="yes">
                     <Publish Event="SpawnDialog" Value="CancelDialog" />
@@ -254,33 +184,21 @@
             </Dialog>
 
             <Dialog Id="FatalErrorForm" X="50" Y="50" Width="373" Height="187" Title="!(loc.WindowTitle)">
-                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\HeadingFont}!(loc.FatalErrorBannerText)" TabSkip="yes" Transparent="yes" />
+                <Control Id="BannerText" Type="Text" X="9" Y="9" Width="354" Height="42" Text="{\HeadingFont}!(loc.FatalErrorBannerText)" TabSkip="yes" Transparent="yes" />
                 <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-                <Control Id="BodyTextInstall" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FatalErrorBodyTextInstall)" TabSkip="yes">
-                    <Condition Action="show">REMOVE=""</Condition>
-                    <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
-                </Control>
-                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FatalErrorBodyTextRemove)" TabSkip="yes">
-                    <Condition Action="show">REMOVE&lt;&gt;""</Condition>
-                    <Condition Action="hide">REMOVE=""</Condition>
-                </Control>
+                <Control Id="BodyTextInstall" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FatalErrorBodyTextInstall)" TabSkip="yes" ShowCondition="REMOVE=&quot;&quot;" HideCondition="REMOVE&lt;&gt;&quot;&quot;" />
+                <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="80" Text="!(loc.FatalErrorBodyTextRemove)" TabSkip="yes" ShowCondition="REMOVE&lt;&gt;&quot;&quot;" HideCondition="REMOVE=&quot;&quot;" />
                 <Control Id="Line2" Type="Line" X="0" Y="152" Width="375" Height="6" Text="MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
                 <Control Id="CloseButton" Type="PushButton" X="300" Y="161" Width="66" Height="18" Text="!(loc.CloseButtonText)" TabSkip="no" Default="yes" Cancel="yes">
-                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                    <Publish Event="EndDialog" Value="Return" />
                 </Control>
                 <Control Id="CancelButton" Type="PushButton" X="156" Y="161" Width="66" Height="18" Text="!(loc.WixUICancel)" TabSkip="no" Disabled="yes" />
                 <Control Id="PreviousButton" Type="PushButton" X="228" Y="161" Width="66" Height="18" Text="!(loc.WixUIBack)" TabSkip="no" Disabled="yes" />
             </Dialog>
 
             <Dialog Id="FilesInUse" X="50" Y="50" Width="361" Height="177" Title="!(loc.FilesInUseWindowTitle)" NoMinimize="yes">
-                <Control Id="InstallBodyText" Type="Text" X="6" Y="9" Width="345" Height="36" Text="!(loc.FilesInUseBodyTextInstall)" TabSkip="yes">
-                    <Condition Action="show">REMOVE=""</Condition>
-                    <Condition Action="hide">REMOVE&lt;&gt;""</Condition>
-                </Control>
-                <Control Id="RemoveBodyText" Type="Text" X="6" Y="9" Width="345" Height="36" Text="!(loc.FilesInUseBodyTextRemove)" TabSkip="yes">
-                    <Condition Action="show">REMOVE&lt;&gt;""</Condition>
-                    <Condition Action="hide">REMOVE=""</Condition>
-                </Control>
+                <Control Id="InstallBodyText" Type="Text" X="6" Y="9" Width="345" Height="36" Text="!(loc.FilesInUseBodyTextInstall)" TabSkip="yes" ShowCondition="REMOVE=&quot;&quot;" HideCondition="REMOVE&lt;&gt;&quot;&quot;" />
+                <Control Id="RemoveBodyText" Type="Text" X="6" Y="9" Width="345" Height="36" Text="!(loc.FilesInUseBodyTextRemove)" TabSkip="yes" ShowCondition="REMOVE&lt;&gt;&quot;&quot;" HideCondition="REMOVE=&quot;&quot;" />
                 <Control Id="ListFilesInUse" Type="ListBox" X="6" Y="51" Width="348" Height="90" Property="FileInUseProcess" Text="MsiFilesInUse" TabSkip="no" Sunken="yes" Sorted="yes" />
                 <Control Id="RetryButton" Type="PushButton" X="99" Y="150" Width="81" Height="18" Text="!(loc.WixUIRetry)" TabSkip="no" Default="yes">
                     <Publish Event="EndDialog" Value="Retry" />
@@ -294,7 +212,7 @@
             </Dialog>
 
             <Dialog Id="ErrorDialog" X="50" Y="50" Width="330" Height="101" Title="!(loc.WindowTitle)" ErrorDialog="yes">
-                <Control Id="ErrorText" Type="Text" X="6" Y="9" Width="318" Height="48" TabSkip="no" Disabled="yes" />
+                <Control Id="ErrorText" Type="Text" X="6" Y="9" Width="318" Height="48" TabSkip="no" />
                 <Control Id="Y" Type="PushButton" X="240" Y="72" Width="81" Height="21" Text="!(loc.WixUIYes)" TabSkip="yes">
                     <Publish Event="EndDialog" Value="ErrorYes" />
                 </Control>
@@ -332,24 +250,25 @@
         <InstallExecuteSequence>
             <AppSearch Sequence="100" />
             <FindRelatedProducts Sequence="200" />
-            <LaunchConditions Sequence="400">NOT Installed</LaunchConditions>
-            <CCPSearch Sequence="500">NOT Installed</CCPSearch>
-            <RMCCPSearch Sequence="600">NOT Installed</RMCCPSearch>
-            <ValidateProductID Sequence="700" />
-            <Custom Action="DIRCA_TARGETDIR" Sequence="750">TARGETDIR=""</Custom>
+			<Custom Action="ResolveCpuArchitecture" Sequence="300" Condition="CpuArchitecture=&quot;&quot;" />
+			<LaunchConditions Sequence="400" Condition="NOT Installed" />
+			<CCPSearch Sequence="500" Condition="NOT Installed" />
+			<RMCCPSearch Sequence="600" Condition="NOT Installed" />
+			<ValidateProductID Sequence="700" />
+			<Custom Action="DIRCA_TARGETDIR" Sequence="750" Condition="TARGETDIR=&quot;&quot;" />
             <CostInitialize Sequence="800" />
             <FileCost Sequence="900" />
-            <IsolateComponents Sequence="950">RedirectedDllSupport</IsolateComponents>
+            <IsolateComponents Sequence="950" Condition="RedirectedDllSupport" />
             <CostFinalize Sequence="1000" />
-            <SetODBCFolders Sequence="1100">NOT Installed</SetODBCFolders>
+            <SetODBCFolders Sequence="1100" Condition="NOT Installed" />
             <InstallValidate Sequence="1400" />
             <InstallInitialize Sequence="1500" />
-            <AllocateRegistrySpace Sequence="1550">NOT Installed</AllocateRegistrySpace>
+            <AllocateRegistrySpace Sequence="1550" Condition="NOT Installed" />
             <ProcessComponents Sequence="1600" />
             <UnpublishComponents Sequence="1700" />
             <UnpublishFeatures Sequence="1800" />
-            <StopServices Sequence="1900">VersionNT</StopServices>
-            <DeleteServices Sequence="2000">VersionNT</DeleteServices>
+            <StopServices Sequence="1900" Condition="VersionNT" />
+            <DeleteServices Sequence="2000" Condition="VersionNT" />
             <UnregisterComPlus Sequence="2100" />
             <SelfUnregModules Sequence="2200" />
             <UnregisterTypeLibraries Sequence="2300" />
@@ -364,19 +283,19 @@
             <RemoveShortcuts Sequence="3200" />
             <RemoveEnvironmentStrings Sequence="3300" />
             <RemoveDuplicateFiles Sequence="3400" />
-            <Custom Action="RemoveKeyboardFromLangBar" Sequence="3450">($RegistryKeys =2)</Custom>
+            <Custom Action="RemoveKeyboardFromLangBar" Sequence="3450" Condition="($RegistryKeys =2)" />
             <RemoveFiles Sequence="3500" />
             <RemoveFolders Sequence="3600" />
             <CreateFolders Sequence="3700" />
             <MoveFiles Sequence="3800" />
             <InstallFiles Sequence="4000" />
-            <Custom Action="SetFilePath" Sequence="4030">Not Msix64 And Not Intel64 And Not Arm64</Custom>
-            <Custom Action="SetFilePathX64" Sequence="4032">Msix64</Custom>
-            <Custom Action="SetFilePathArm64" Sequence="4033">Arm64</Custom>
-            <Custom Action="SetFilePathIa64" Sequence="4034">Intel64</Custom>
-            <Custom Action="RegisterKeyboard" Sequence="4050">($RegistryKeys &gt;2)</Custom>
-            <Custom Action="UnregisterKeyboard" Sequence="4060">($RegistryKeys =2)</Custom>
-            <Custom Action="AddKeyboardToLangBar" Sequence="4065">($RegistryKeys &gt;2)</Custom>
+            <Custom Action="SetFilePath" Sequence="4030" Condition="Not VersionNT64" />
+            <!-- <Custom Action="SetFilePath" Sequence="4030" Condition="Not Msix64 And Not Intel64" /> -->
+            <Custom Action="SetFilePathX64" Sequence="4032" Condition="Msix64" />
+            <Custom Action="SetFilePathArm64" Sequence="4033" Condition="CpuArchitecture=&quot;ARM64&quot;" />
+            <Custom Action="RegisterKeyboard" Sequence="4050" Condition="($RegistryKeys &gt;2)" />
+            <Custom Action="UnregisterKeyboard" Sequence="4060" Condition="($RegistryKeys =2)" />
+            <Custom Action="AddKeyboardToLangBar" Sequence="4065" Condition="($RegistryKeys &gt;2)" />
             <PatchFiles Sequence="4090" />
             <DuplicateFiles Sequence="4210" />
             <BindImage Sequence="4300" />
@@ -393,8 +312,8 @@
             <RegisterTypeLibraries Sequence="5500" />
             <SelfRegModules Sequence="5600" />
             <RegisterComPlus Sequence="5700" />
-            <InstallServices Sequence="5800">VersionNT</InstallServices>
-            <StartServices Sequence="5900">VersionNT</StartServices>
+            <InstallServices Sequence="5800" Condition="VersionNT" />
+            <StartServices Sequence="5900" Condition="VersionNT" />
             <RegisterUser Sequence="6000" />
             <RegisterProduct Sequence="6100" />
             <PublishComponents Sequence="6200" />
@@ -412,23 +331,25 @@
             <Show Dialog="FinishedForm" OnExit="success" />
             <AppSearch Sequence="100" />
             <FindRelatedProducts Sequence="200" />
-            <LaunchConditions Sequence="400">NOT Installed</LaunchConditions>
-            <CCPSearch Sequence="500">NOT Installed</CCPSearch>
-            <RMCCPSearch Sequence="600">NOT Installed</RMCCPSearch>
+			<Custom Action="ResolveCpuArchitecture" Sequence="300" Condition="CpuArchitecture=&quot;&quot;" />
+			<LaunchConditions Sequence="400" Condition="NOT Installed" />
+            <CCPSearch Sequence="500" Condition="NOT Installed" />
+            <RMCCPSearch Sequence="600" Condition="NOT Installed" />
             <ValidateProductID Sequence="700" />
-            <Custom Action="DIRCA_TARGETDIR" Sequence="750">TARGETDIR=""</Custom>
+			<Custom Action="DIRCA_TARGETDIR" Sequence="750" Condition="TARGETDIR=&quot;&quot;" />
             <CostInitialize Sequence="800" />
             <FileCost Sequence="900" />
-            <IsolateComponents Sequence="950">RedirectedDllSupport</IsolateComponents>
-            <Show Dialog="WelcomeForm" Sequence="997">Installed="" AND NOT RESUME</Show>
-            <Show Dialog="ResumeForm" Sequence="998">Installed="" AND RESUME</Show>
-            <Show Dialog="MaintenanceForm" Sequence="999">Installed&lt;&gt;""</Show>
+            <IsolateComponents Sequence="950" Condition="RedirectedDllSupport" />
+            <Show Dialog="WelcomeForm" Sequence="997" Condition="Installed=&quot;&quot; AND NOT RESUME" />
+            <Show Dialog="ResumeForm" Sequence="998" Condition="Installed=&quot;&quot; AND RESUME" />
+            <Show Dialog="MaintenanceForm" Sequence="999" Condition="Installed&lt;&gt;&quot;&quot;" />
             <CostFinalize Sequence="1000" />
             <ExecuteAction Sequence="1300" />
         </InstallUISequence>
 
         <AdminExecuteSequence>
-            <Custom Action="DIRCA_TARGETDIR" Sequence="750">TARGETDIR=""</Custom>
+			<Custom Action="ResolveCpuArchitecture" Sequence="300" Condition="CpuArchitecture=&quot;&quot;" />
+			<Custom Action="DIRCA_TARGETDIR" Sequence="750" Condition="TARGETDIR=&quot;&quot;" />
             <CostInitialize Sequence="800" />
             <FileCost Sequence="900" />
             <CostFinalize Sequence="1000" />
@@ -438,5 +359,55 @@
             <InstallFiles Sequence="4000" />
             <InstallFinalize Sequence="6600" />
         </AdminExecuteSequence>
-    </Product>
+    
+        <Component Id="RegistryKeys" Guid="{4A4EAE0D-5F66-4E3D-AAC4-27F121FDBC53}" KeyPath="yes" Directory="TARGETDIR" />
+
+        <StandardDirectory Id="SystemFolder">
+            <?if $(sys.BUILDARCH) = x86 ?>
+                <Directory Id="SYSTEMFOLDERX86" SourceName="x86">
+                    <Component Id="LayoutX86" Guid="{57344B98-84AA-466E-BBB2-0DCD1A503FAE}" Condition="NOT VersionNT64">
+                        <File Id="FILE_LAYOUT_X86" Name="ltenh.dll" KeyPath="yes" Source="..\x86\ltenh.dll" />
+                    </Component>
+                </Directory>
+            <?endif?>
+
+			<?if $(sys.BUILDARCH) != x86 ?>
+                <Directory Id="SYSTEMFOLDERWOW64" SourceName="wow64">
+                    <Component Id="LayoutWOW64" Guid="{3E1F22E6-E742-4C1E-86A5-19DD3E892D59}" Condition="VersionNT64">
+                        <File Id="FILE_LAYOUT_WOW64" Name="ltenh.dll" KeyPath="yes" Source="..\wow64\ltenh.dll" />
+                    </Component>
+                </Directory>
+            <?endif?>
+        </StandardDirectory>
+
+        <?if $(sys.BUILDARCH) != x86 ?>
+            <StandardDirectory Id="System64Folder">
+                <?if $(sys.BUILDARCH) = x64 ?>
+                    <Directory Id="SYSTEMFOLDERX64" SourceName="x64">
+                        <Component Id="LayoutX64" Guid="{1EE08930-5343-40DD-B2D7-FE7360501ECE}" Condition="Msix64">
+                            <File Id="FILE_LAYOUT_X64" Name="ltenh.dll" KeyPath="yes" Source="..\x64\ltenh.dll" />
+                        </Component>
+                    </Directory>
+                <?endif?>
+
+				<?if $(sys.BUILDARCH) = arm64 ?>
+                    <Directory Id="SYSTEMFOLDERARM64" SourceName="arm64">
+                        <Component Id="LayoutARM64" Guid="{A9363BC5-6FF4-467C-B360-DAC89F2D544C}" Condition="CpuArchitecture=&quot;ARM64&quot;">
+                            <File Id="FILE_LAYOUT_ARM64" Name="ltenh.dll" KeyPath="yes" Source="..\arm64\ltenh.dll" />
+                        </Component>
+                    </Directory>
+                <?endif?>
+            </StandardDirectory>
+        <?endif?>
+			
+		<?if $(sys.BUILDARCH) = arm64 ?>
+		    <StandardDirectory Id="WindowsFolder">
+			    <Directory Id="SYSTEMFOLDERARM32" Name="SysArm32" SourceName="arm">
+					<Component Id="LayoutARM32" Guid="{3A862423-B6FA-4BE2-9789-C701C5B44892}" Condition="CpuArchitecture=&quot;ARM64&quot; And SYSARM32_DIRECTORY_FOUND">
+						<File Id="FILE_LAYOUT_ARM32" Name="ltenh.dll" KeyPath="yes" Source="..\arm\ltenh.dll" />
+					</Component>
+				</Directory>
+			</StandardDirectory>
+		<?endif?>
+    </Package>
 </Wix>
