@@ -3,3 +3,5 @@ CMakeFiles/
 CMakeCache.txt
 CMakeLists.txt
 obj/
+*.lib
+*.exp
