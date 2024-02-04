@@ -1,88 +1,88 @@
 ﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
     <Package Scope="perMachine" Manufacturer="!(loc.ProductManufacturer)" Name="!(loc.ProductName)" UpgradeCode="{8E0A18CA-D0EF-4F46-9D71-1377301A70AC}" Version="1.0.3.40">
-		<SummaryInformation Description="!(loc.PackageDescription)" Keywords="!(loc.PackageKeywords)" Manufacturer="!(loc.ProductManufacturer)" />
-		
-		<Property Id="MaintenanceForm_Action" Value="Remove" />
-		<Property Id="ErrorDialog" Value="ErrorDialog" />
-		<Property Id="LCIDValue" Value="!(loc.LCIDValue)" />
-		<Property Id="DefaultUIFont" Value="DefaultUIFont" />
-		<Property Id="ARPCONTACT" Value="!(loc.ProductManufacturer)" />
-		<Property Id="LayoutFile" Value="ltenh.dll" />
+        <SummaryInformation Description="!(loc.PackageDescription)" Keywords="!(loc.PackageKeywords)" Manufacturer="!(loc.ProductManufacturer)" />
+        
+        <Property Id="MaintenanceForm_Action" Value="Remove" />
+        <Property Id="ErrorDialog" Value="ErrorDialog" />
+        <Property Id="LCIDValue" Value="!(loc.LCIDValue)" />
+        <Property Id="DefaultUIFont" Value="DefaultUIFont" />
+        <Property Id="ARPCONTACT" Value="!(loc.ProductManufacturer)" />
+        <Property Id="LayoutFile" Value="ltenh.dll" />
 
-		<Property Id="KEYBOARD_ALREADY_PRESENT">
-			<DirectorySearch Id="SystemKeyboardFile" Path="[SystemFolder]" Depth="0">
-				<FileSearch Id="SystemKeyboardFile" Name="ltenh.dll" />
-			</DirectorySearch>
+        <Property Id="KEYBOARD_ALREADY_PRESENT">
+            <DirectorySearch Id="SystemKeyboardFile" Path="[SystemFolder]" Depth="0">
+                <FileSearch Id="SystemKeyboardFile" Name="ltenh.dll" />
+            </DirectorySearch>
 
-			<?if $(sys.BUILDARCH) != x86 ?>
-			    <DirectorySearch Id="System64KeyboardFile" Path="[System64Folder]" Depth="0">
-				    <FileSearch Id="System64KeyboardFile" Name="ltenh.dll" />
-			    </DirectorySearch>
-			<?endif?>
+            <?if $(sys.BUILDARCH) != x86 ?>
+                <DirectorySearch Id="System64KeyboardFile" Path="[System64Folder]" Depth="0">
+                    <FileSearch Id="System64KeyboardFile" Name="ltenh.dll" />
+                </DirectorySearch>
+            <?endif?>
 
-			<?if $(sys.BUILDARCH) = arm64 ?>
-			    <DirectorySearch Id="SysArm32KeyboardFile" Path="[WindowsFolder]\SysArm32" Depth="0">
-				    <FileSearch Id="SysArm32KeyboardFile" Name="ltenh.dll" />
-			    </DirectorySearch>
-			<?endif?>
-		</Property>
+            <?if $(sys.BUILDARCH) = arm64 ?>
+                <DirectorySearch Id="SysArm32KeyboardFile" Path="[WindowsFolder]\SysArm32" Depth="0">
+                    <FileSearch Id="SysArm32KeyboardFile" Name="ltenh.dll" />
+                </DirectorySearch>
+            <?endif?>
+        </Property>
 
-		<Property Id="SYSARM32_DIRECTORY_FOUND">
-			<DirectorySearch Id="SysArm32" Path="[WindowsFolder]\SysArm32" Depth="0" />
-		</Property>
+        <Property Id="SYSARM32_DIRECTORY_FOUND">
+            <DirectorySearch Id="SysArm32" Path="[WindowsFolder]\SysArm32" Depth="0" />
+        </Property>
 
-		<Launch Condition="NOT Version9X" Message="!(loc.UnsupportedPlatformMessage)" />
-		<?if $(sys.BUILDARCH) = x86 ?>
-		    <Property Id="TargetArchitecture" Value="x86" />
-		    <Launch Condition="NOT VersionNT64" Message="!(loc.UnsupportedPlatformMessage)" />
+        <Launch Condition="NOT Version9X" Message="!(loc.UnsupportedPlatformMessage)" />
+        <?if $(sys.BUILDARCH) = x86 ?>
+            <Property Id="TargetArchitecture" Value="x86" />
+            <Launch Condition="NOT VersionNT64" Message="!(loc.UnsupportedPlatformMessage)" />
         <?endif?>
-		<?if $(sys.BUILDARCH) = x64 ?>
-		    <Property Id="TargetArchitecture" Value="AMD64" />
-		<?endif?>
-		<?if $(sys.BUILDARCH) = arm64 ?>
-		    <Property Id="TargetArchitecture" Value="ARM64" />
-		<?endif?>
-		<Launch Condition="CpuArchitecture=TargetArchitecture" Message="!(loc.UnsupportedPlatformMessage)" />
-		<Launch Condition="KEYBOARD_ALREADY_PRESENT=&quot;&quot; Or Installed" Message="!(loc.ConflictingFileMessage)" />
+        <?if $(sys.BUILDARCH) = x64 ?>
+            <Property Id="TargetArchitecture" Value="AMD64" />
+        <?endif?>
+        <?if $(sys.BUILDARCH) = arm64 ?>
+            <Property Id="TargetArchitecture" Value="ARM64" />
+        <?endif?>
+        <Launch Condition="CpuArchitecture=TargetArchitecture" Message="!(loc.UnsupportedPlatformMessage)" />
+        <Launch Condition="KEYBOARD_ALREADY_PRESENT=&quot;&quot; Or Installed" Message="!(loc.ConflictingFileMessage)" />
 
-		<CustomAction Id="ResolveCpuArchitecture" Property="CpuArchitecture" Value="[%PROCESSOR_ARCHITECTURE]" />
-		<CustomAction Id="DIRCA_TARGETDIR" Property="TARGETDIR" Value="[SystemFolder]" Execute="firstSequence" />
+        <CustomAction Id="ResolveCpuArchitecture" Property="CpuArchitecture" Value="[%PROCESSOR_ARCHITECTURE]" />
+        <CustomAction Id="DIRCA_TARGETDIR" Property="TARGETDIR" Value="[SystemFolder]" Execute="firstSequence" />
         <CustomAction Id="SetFilePath" Property="RegisterKeyboard" Value="[#FILE_LAYOUT_X86]|[LCIDValue]" />
         <CustomAction Id="SetFilePathX64" Property="RegisterKeyboard" Value="[#FILE_LAYOUT_X64]|[LCIDValue]" />
-		<CustomAction Id="SetFilePathArm64" Property="RegisterKeyboard" Value="[#FILE_LAYOUT_ARM64]|[LCIDValue]" />
+        <CustomAction Id="SetFilePathArm64" Property="RegisterKeyboard" Value="[#FILE_LAYOUT_ARM64]|[LCIDValue]" />
 
         <Feature Id="DefaultFeature" Level="1">
             <ComponentRef Id="RegistryKeys" />
         </Feature>
 
-		<?if $(sys.BUILDARCH) = x86 ?>
+        <?if $(sys.BUILDARCH) = x86 ?>
             <Feature Id="DefaultFeatureX86" ConfigurableDirectory="SYSTEMFOLDERX86" Level="0">
                 <ComponentRef Id="LayoutX86" />
                 <Level Value="1" Condition="NOT VersionNT64" />
             </Feature>
         <?endif?>
 
-		<?if $(sys.BUILDARCH) != x86 ?>
+        <?if $(sys.BUILDARCH) != x86 ?>
             <Feature Id="DefaultFeatureWow64" ConfigurableDirectory="SYSTEMFOLDERWOW64" Level="0">
                 <ComponentRef Id="LayoutWOW64" />
                 <Level Value="1" Condition="VersionNT64" />
             </Feature>
         <?endif?>
 
-		<?if $(sys.BUILDARCH) = x64 ?>
+        <?if $(sys.BUILDARCH) = x64 ?>
             <Feature Id="DefaultFeatureX64" ConfigurableDirectory="SYSTEMFOLDERX64" Level="0">
                 <ComponentRef Id="LayoutX64" />
                 <Level Value="1" Condition="Msix64" />
             </Feature>
         <?endif?>
 
-		<?if $(sys.BUILDARCH) = arm64 ?>
+        <?if $(sys.BUILDARCH) = arm64 ?>
             <Feature Id="DefaultFeatureArm64" ConfigurableDirectory="SYSTEMFOLDERARM64" Level="0">
                 <ComponentRef Id="LayoutARM64" />
                 <Level Value="1" Condition="VersionNT64" />
             </Feature>
 
-		    <Feature Id="DefaultFeatureArm32" ConfigurableDirectory="SYSTEMFOLDERARM32" Level="0">
+            <Feature Id="DefaultFeatureArm32" ConfigurableDirectory="SYSTEMFOLDERARM32" Level="0">
                 <ComponentRef Id="LayoutARM32" />
                 <Level Value="1" Condition="VersionNT64" />
             </Feature>
@@ -250,12 +250,12 @@
         <InstallExecuteSequence>
             <AppSearch Sequence="100" />
             <FindRelatedProducts Sequence="200" />
-			<Custom Action="ResolveCpuArchitecture" Sequence="300" Condition="CpuArchitecture=&quot;&quot;" />
-			<LaunchConditions Sequence="400" Condition="NOT Installed" />
-			<CCPSearch Sequence="500" Condition="NOT Installed" />
-			<RMCCPSearch Sequence="600" Condition="NOT Installed" />
-			<ValidateProductID Sequence="700" />
-			<Custom Action="DIRCA_TARGETDIR" Sequence="750" Condition="TARGETDIR=&quot;&quot;" />
+            <Custom Action="ResolveCpuArchitecture" Sequence="300" Condition="CpuArchitecture=&quot;&quot;" />
+            <LaunchConditions Sequence="400" Condition="NOT Installed" />
+            <CCPSearch Sequence="500" Condition="NOT Installed" />
+            <RMCCPSearch Sequence="600" Condition="NOT Installed" />
+            <ValidateProductID Sequence="700" />
+            <Custom Action="DIRCA_TARGETDIR" Sequence="750" Condition="TARGETDIR=&quot;&quot;" />
             <CostInitialize Sequence="800" />
             <FileCost Sequence="900" />
             <IsolateComponents Sequence="950" Condition="RedirectedDllSupport" />
@@ -331,12 +331,12 @@
             <Show Dialog="FinishedForm" OnExit="success" />
             <AppSearch Sequence="100" />
             <FindRelatedProducts Sequence="200" />
-			<Custom Action="ResolveCpuArchitecture" Sequence="300" Condition="CpuArchitecture=&quot;&quot;" />
-			<LaunchConditions Sequence="400" Condition="NOT Installed" />
+            <Custom Action="ResolveCpuArchitecture" Sequence="300" Condition="CpuArchitecture=&quot;&quot;" />
+            <LaunchConditions Sequence="400" Condition="NOT Installed" />
             <CCPSearch Sequence="500" Condition="NOT Installed" />
             <RMCCPSearch Sequence="600" Condition="NOT Installed" />
             <ValidateProductID Sequence="700" />
-			<Custom Action="DIRCA_TARGETDIR" Sequence="750" Condition="TARGETDIR=&quot;&quot;" />
+            <Custom Action="DIRCA_TARGETDIR" Sequence="750" Condition="TARGETDIR=&quot;&quot;" />
             <CostInitialize Sequence="800" />
             <FileCost Sequence="900" />
             <IsolateComponents Sequence="950" Condition="RedirectedDllSupport" />
@@ -348,8 +348,8 @@
         </InstallUISequence>
 
         <AdminExecuteSequence>
-			<Custom Action="ResolveCpuArchitecture" Sequence="300" Condition="CpuArchitecture=&quot;&quot;" />
-			<Custom Action="DIRCA_TARGETDIR" Sequence="750" Condition="TARGETDIR=&quot;&quot;" />
+            <Custom Action="ResolveCpuArchitecture" Sequence="300" Condition="CpuArchitecture=&quot;&quot;" />
+            <Custom Action="DIRCA_TARGETDIR" Sequence="750" Condition="TARGETDIR=&quot;&quot;" />
             <CostInitialize Sequence="800" />
             <FileCost Sequence="900" />
             <CostFinalize Sequence="1000" />
@@ -371,7 +371,7 @@
                 </Directory>
             <?endif?>
 
-			<?if $(sys.BUILDARCH) != x86 ?>
+            <?if $(sys.BUILDARCH) != x86 ?>
                 <Directory Id="SYSTEMFOLDERWOW64" SourceName="wow64">
                     <Component Id="LayoutWOW64" Guid="{3E1F22E6-E742-4C1E-86A5-19DD3E892D59}" Condition="VersionNT64">
                         <File Id="FILE_LAYOUT_WOW64" Name="ltenh.dll" KeyPath="yes" Source="..\wow64\ltenh.dll" />
@@ -390,7 +390,7 @@
                     </Directory>
                 <?endif?>
 
-				<?if $(sys.BUILDARCH) = arm64 ?>
+                <?if $(sys.BUILDARCH) = arm64 ?>
                     <Directory Id="SYSTEMFOLDERARM64" SourceName="arm64">
                         <Component Id="LayoutARM64" Guid="{A9363BC5-6FF4-467C-B360-DAC89F2D544C}" Condition="CpuArchitecture=&quot;ARM64&quot;">
                             <File Id="FILE_LAYOUT_ARM64" Name="ltenh.dll" KeyPath="yes" Source="..\arm64\ltenh.dll" />
@@ -399,15 +399,15 @@
                 <?endif?>
             </StandardDirectory>
         <?endif?>
-			
-		<?if $(sys.BUILDARCH) = arm64 ?>
-		    <StandardDirectory Id="WindowsFolder">
-			    <Directory Id="SYSTEMFOLDERARM32" Name="SysArm32" SourceName="arm">
-					<Component Id="LayoutARM32" Guid="{3A862423-B6FA-4BE2-9789-C701C5B44892}" Condition="CpuArchitecture=&quot;ARM64&quot; And SYSARM32_DIRECTORY_FOUND">
-						<File Id="FILE_LAYOUT_ARM32" Name="ltenh.dll" KeyPath="yes" Source="..\arm\ltenh.dll" />
-					</Component>
-				</Directory>
-			</StandardDirectory>
-		<?endif?>
+            
+        <?if $(sys.BUILDARCH) = arm64 ?>
+            <StandardDirectory Id="WindowsFolder">
+                <Directory Id="SYSTEMFOLDERARM32" Name="SysArm32" SourceName="arm">
+                    <Component Id="LayoutARM32" Guid="{3A862423-B6FA-4BE2-9789-C701C5B44892}" Condition="CpuArchitecture=&quot;ARM64&quot; And SYSARM32_DIRECTORY_FOUND">
+                        <File Id="FILE_LAYOUT_ARM32" Name="ltenh.dll" KeyPath="yes" Source="..\arm\ltenh.dll" />
+                    </Component>
+                </Directory>
+            </StandardDirectory>
+        <?endif?>
     </Package>
 </Wix>
